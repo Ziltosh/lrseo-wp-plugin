@@ -11,6 +11,12 @@ License: GPLv2
     Copyright 2024 Nicolas Egermann
 */
 
+// Vérifiez que le script n'est pas exécuté en dehors de WordPress.
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+include_once plugin_dir_path(__FILE__) . 'Shortcodes.php';
 
 add_shortcode('lrseo', [Shortcodes::class, 'lrseo_shortcode']);
 

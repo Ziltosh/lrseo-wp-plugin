@@ -1,5 +1,10 @@
 <?php
 
+// Vérifiez que le script n'est pas exécuté en dehors de WordPress.
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 class Shortcodes
 {
 
