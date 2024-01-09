@@ -1,0 +1,13 @@
+{
+  "name": "LRSEO Plugin",
+  "version": "1.0.0",
+  "homepage": "https://leader-referencement.com/",
+  "author": "Nicolas",
+  "author_homepage": "https://rfpsb.fr",
+  "sections": {
+    "description": "Plugin pour gérer quelques éléments des sites..",
+    "installation": "Rien de spécial.",
+    "changelog": "<ul><li>1.0.0: Première version</li></ul>",
+    "custom_section": ""
+  }
+}
