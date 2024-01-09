@@ -18,7 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 include_once plugin_dir_path(__FILE__) . 'Shortcodes.php';
 
-add_shortcode('lrseo', [Shortcodes::class, 'lrseo_shortcode']);
+add_shortcode('lrseo', [Shortcodes::class, 'lrseo_fieldset']);
+add_shortcode('lrseo_fieldset', [Shortcodes::class, 'lrseo_fieldset']);
+add_shortcode('lrseo_list', [Shortcodes::class, 'lrseo_list']);
 
 require 'plugin-update-checker-5.3/plugin-update-checker.php';
 
