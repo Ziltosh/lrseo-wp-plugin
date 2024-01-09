@@ -23,8 +23,10 @@ include_once plugin_dir_path(__FILE__) . 'Shortcodes.php';
 // Ajouter les styles et scripts
 function lrseo_enqueue_style()
 {
+    wp_register_style('lrseo-wp-plugin', plugin_dir_url(__FILE__) . 'lrseo-wp-plugin.css', [], '1.0.0', 'all');
+
     // Ajouter le style
-    wp_enqueue_style('lrseo-style', plugin_dir_url(__FILE__) . 'lrseo-wp-plugin.css', [], '1.0.0', 'all');
+    wp_enqueue_style('lrseo-wp-plugin');
 
     // Ajouter le script
 //    wp_enqueue_script('lrseo-script', plugin_dir_url(__FILE__) . 'js/lrseo.js', [], '1.0.0', true);
