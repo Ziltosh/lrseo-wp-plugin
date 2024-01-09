@@ -46,17 +46,16 @@ class Shortcodes
         return $liste;
     }
 
-    public static function lrseo_icon($atts, $content = null)
+    public static function lrseo_icon($atts)
     {
         // Extraire les attributs avec des valeurs par défaut
         $a = shortcode_atts(array(
-            'class' => '',
             'icon' => '',
         ), $atts);
 
-        $iconName = esc_attr($a['icon']) === '' ? '' : 'icon-' . esc_attr($a['icon']);
+        $iconName = esc_attr($a['icon']) === '' ? '' : ' icon-' . esc_attr($a['icon']);
 
         // Construire le début de la liste
-        return '<i class="lrseo_icon ' . esc_attr($a['class']) . ' ' . $iconName . '"></i>';
+        return '<i class="lrseo_icon'. $iconName . '"></i>';
     }
 }
