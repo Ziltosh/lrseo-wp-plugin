@@ -45,4 +45,18 @@ class Shortcodes
 
         return $liste;
     }
+
+    public static function lrseo_icon($atts, $content = null)
+    {
+        // Extraire les attributs avec des valeurs par défaut
+        $a = shortcode_atts(array(
+            'class' => '',
+            'icon' => '',
+        ), $atts);
+
+        // Construire le début de la liste
+        $icon = '<i class="lrseo_icon ' . esc_attr($a['class']) . ' ' . esc_attr($a['icon']) . '"></i>';
+
+        return $icon;
+    }
 }

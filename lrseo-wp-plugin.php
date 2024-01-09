@@ -12,15 +12,32 @@ License: GPLv2
 */
 
 // Vérifiez que le script n'est pas exécuté en dehors de WordPress.
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
 include_once plugin_dir_path(__FILE__) . 'Shortcodes.php';
 
+//----------------------------------
+
+// Ajouter les styles et scripts
+function lrseo_enqueue_style()
+{
+    // Ajouter le style
+    wp_enqueue_style('lrseo-style', plugin_dir_url(__FILE__) . 'css/lrseo-wp-plugin.css', [], '1.0.0', 'all');
+
+    // Ajouter le script
+//    wp_enqueue_script('lrseo-script', plugin_dir_url(__FILE__) . 'js/lrseo.js', [], '1.0.0', true);
+}
+
+add_action('wp_enqueue_scripts', 'lrseo_enqueue_style');
+
 add_shortcode('lrseo', [Shortcodes::class, 'lrseo_fieldset']);
 add_shortcode('lrseo_fieldset', [Shortcodes::class, 'lrseo_fieldset']);
 add_shortcode('lrseo_list', [Shortcodes::class, 'lrseo_list']);
+add_shortcode('lrseo_icon', [Shortcodes::class, 'lrseo_icon']);
+
+//----------------------------------
 
 require 'plugin-update-checker-5.3/plugin-update-checker.php';
 
