@@ -36,11 +36,63 @@ function lrseo_enqueue_style()
 
 add_action('wp_enqueue_scripts', 'lrseo_enqueue_style');
 
+//----------------------------------
+
 add_shortcode('lrseo', [Shortcodes::class, 'lrseo_fieldset']);
 add_shortcode('lrseo_fieldset', [Shortcodes::class, 'lrseo_fieldset']);
 add_shortcode('lrseo_list', [Shortcodes::class, 'lrseo_list']);
 add_shortcode('lrseo_icon', [Shortcodes::class, 'lrseo_icon']);
 add_shortcode('lrseo_faq', [Shortcodes::class, 'lrseo_faq']);
+
+//----------------------------------
+
+/**
+ * Render the shortcode in wp-json API
+ */
+
+add_action( 'rest_api_init', function () {
+    register_rest_field(
+        'post',
+        'content',
+        array(
+            'get_callback'    => 'lrseo_do_shortcode',
+            'update_callback' => null,
+            'schema'          => null,
+        )
+    );
+
+    register_rest_field(
+        'post',
+        'excerpt',
+        array(
+            'get_callback'    => 'lrseo_do_shortcode',
+            'update_callback' => null,
+            'schema'          => null,
+        )
+    );
+});
+
+function lrseo_do_shortcode( $object, $field_name, $request ) {
+
+    global $post;
+    $post = get_post($object['id']);
+
+    $output = array();
+
+    //Apply the_content's filter, one of them interpret shortcodes
+    switch( $field_name ) {
+        case 'content':
+            $output['rendered'] =  apply_filters( 'the_content', $post->post_content );
+            break;
+        case 'excerpt':
+            $output['rendered'] =  apply_filters( 'the_excerpt', $post->post_excerpt );
+            break;
+    }
+
+    $output['protected'] = false;
+
+    return $output;
+}
 
 //----------------------------------
 
