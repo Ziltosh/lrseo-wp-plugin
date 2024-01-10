@@ -68,9 +68,9 @@ class Shortcodes
         ), $atts);
 
         add_action('wp_head', function() use ($a) {
-            echo $a['json'];
+            echo base64_decode($a['json']);
         });
 
-        return '';
+        return base64_decode($a['json']);
     }
 }
