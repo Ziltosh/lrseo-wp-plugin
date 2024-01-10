@@ -35,6 +35,12 @@ function lrseo_enqueue_style()
 }
 
 add_action('wp_enqueue_scripts', 'lrseo_enqueue_style');
+add_action('wp_head', function() {
+    var_dump(base64_encode(Shortcodes::$faqJson));
+    if (Shortcodes::$faqJson !== '') {
+        echo Shortcodes::$faqJson;
+    }
+});
 
 //----------------------------------
 

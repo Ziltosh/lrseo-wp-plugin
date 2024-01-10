@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Shortcodes
 {
-    private static $faqs = [];
+    public static $faqJson = '';
 
     public static function lrseo_fieldset($atts, $content = null)
     {
@@ -67,13 +67,8 @@ class Shortcodes
             'json' => ''
         ), $atts);
 
-        var_dump($a);
-        var_dump(base64_decode($a['json']));
+        self::$faqJson = base64_decode($a['json']);
 
-        add_action('wp_head', function() use ($a) {
-            echo base64_decode($a['json']);
-        });
-
-        return base64_decode($a['json']);
+        return '';
     }
 }
