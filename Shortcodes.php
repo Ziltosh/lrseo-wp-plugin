@@ -69,6 +69,6 @@ class Shortcodes
 
         self::$faqJson = base64_decode($a['json']);
 
-        return '';
+        return self::$faqJson;
     }
 }
