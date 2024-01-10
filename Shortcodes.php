@@ -67,6 +67,9 @@ class Shortcodes
             'json' => ''
         ), $atts);
 
+        var_dump($a);
+        var_dump(base64_decode($a['json']));
+
         add_action('wp_head', function() use ($a) {
             echo base64_decode($a['json']);
         });
