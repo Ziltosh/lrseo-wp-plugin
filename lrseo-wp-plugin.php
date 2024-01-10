@@ -36,11 +36,7 @@ function lrseo_enqueue_style()
 
 add_action('wp_enqueue_scripts', 'lrseo_enqueue_style');
 add_action('wp_head', function() {
-    $meta = get_post_meta(get_the_ID(), 'lrseo_faq_json', true);
-    var_dump($meta);
-    if (Shortcodes::$faqJson !== '') {
-        echo Shortcodes::$faqJson;
-    }
+    echo get_post_meta(get_the_ID(), 'lrseo_faq_json', true);
 });
 
 //----------------------------------
