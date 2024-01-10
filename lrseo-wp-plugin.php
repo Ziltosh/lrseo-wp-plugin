@@ -45,6 +45,7 @@ add_shortcode('lrseo', [Shortcodes::class, 'lrseo_fieldset']);
 add_shortcode('lrseo_fieldset', [Shortcodes::class, 'lrseo_fieldset']);
 add_shortcode('lrseo_list', [Shortcodes::class, 'lrseo_list']);
 add_shortcode('lrseo_icon', [Shortcodes::class, 'lrseo_icon']);
+add_shortcode('lrseo_faq', [Shortcodes::class, 'lrseo_faq']);
 
 //----------------------------------
 

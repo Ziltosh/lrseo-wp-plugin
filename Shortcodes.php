@@ -59,4 +59,16 @@ class Shortcodes
         // Construire le début de la liste
         return '<i class="lrseo_icon'. $iconName . '"></i>';
     }
+
+    public static function lrseo_faq($atts, $content = null)
+    {
+        // Extraire les attributs avec des valeurs par défaut
+        $a = shortcode_atts(array(
+            'json' => ''
+        ), $atts);
+
+        update_post_meta(get_the_ID(), 'lrseo_faq_json', base64_encode($a['json']));
+
+        return '';
+    }
 }
