@@ -67,7 +67,7 @@ class Shortcodes
             'json' => ''
         ), $atts);
 
-        update_post_meta(get_the_ID(), 'lrseo_faq_json', base64_encode($a['json']));
+        update_post_meta(get_the_ID(), 'lrseo_faq_json', $a['json']);
 
         return '';
     }
