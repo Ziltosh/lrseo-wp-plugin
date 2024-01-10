@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Shortcodes
 {
+    private static $faqs = [];
 
     public static function lrseo_fieldset($atts, $content = null)
     {
@@ -57,5 +58,19 @@ class Shortcodes
 
         // Construire le début de la liste
         return '<i class="lrseo_icon'. $iconName . '"></i>';
+    }
+
+    public static function lrseo_faq($atts, $content = null)
+    {
+        // Extraire les attributs avec des valeurs par défaut
+        $a = shortcode_atts(array(
+            'json' => ''
+        ), $atts);
+
+        add_action('wp_head', function() use ($a) {
+            echo $a['json'];
+        });
+
+        return '';
     }
 }

@@ -4,7 +4,7 @@
 Plugin Name: LRSEO Plugin
 Plugin URI: https://leader-referencement.com
 Description: Plugin pour gérer quelques éléments des sites.
-Version: 1.0.2
+Version: 1.0.3
 Author: Nicolas Egermann
 Author URI: https://rfpsb.fr
 License: GPLv2
@@ -40,6 +40,7 @@ add_shortcode('lrseo', [Shortcodes::class, 'lrseo_fieldset']);
 add_shortcode('lrseo_fieldset', [Shortcodes::class, 'lrseo_fieldset']);
 add_shortcode('lrseo_list', [Shortcodes::class, 'lrseo_list']);
 add_shortcode('lrseo_icon', [Shortcodes::class, 'lrseo_icon']);
+add_shortcode('lrseo_faq', [Shortcodes::class, 'lrseo_faq']);
 
 //----------------------------------
 
