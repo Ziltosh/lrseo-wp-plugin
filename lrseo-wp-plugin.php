@@ -52,7 +52,7 @@ add_shortcode('lrseo_faq', [Shortcodes::class, 'lrseo_faq']);
 
 //----------------------------------
 
-require 'plugin-update-checker-5.3/plugin-update-checker.php';
+require 'plugin-update-checker-5.4/plugin-update-checker.php';
 
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
