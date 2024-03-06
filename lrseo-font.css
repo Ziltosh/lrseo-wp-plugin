@@ -19,7 +19,7 @@
   }
 }
 */
-[class^="icon-"]:before, [class*=" icon-"]:before {
+[class*="lrseoicon-"]:before {
     font-family: "lrseo";
     font-style: normal;
     font-weight: normal;
@@ -54,41 +54,41 @@
     /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.icon-search:before { content: '\e801'; } /* '' */
-.icon-heart:before { content: '\e802'; } /* '' */
-.icon-star:before { content: '\e803'; } /* '' */
-.icon-user:before { content: '\e804'; } /* '' */
-.icon-ok:before { content: '\e806'; } /* '' */
-.icon-ok-circled:before { content: '\e807'; } /* '' */
-.icon-cancel:before { content: '\e808'; } /* '' */
-.icon-plus:before { content: '\e809'; } /* '' */
-.icon-minus-circled:before { content: '\e80a'; } /* '' */
-.icon-help-circled:before { content: '\e80b'; } /* '' */
-.icon-attention:before { content: '\e80d'; } /* '' */
-.icon-wrench:before { content: '\e80f'; } /* '' */
-.icon-right-open:before { content: '\e812'; } /* '' */
-.icon-right-hand:before { content: '\e813'; } /* '' */
-.icon-asterisk:before { content: '\e815'; } /* '' */
-.icon-right-circled:before { content: '\f0a9'; } /* '' */
-.icon-gauge:before { content: '\f0e4'; } /* '' */
-.icon-lightbulb:before { content: '\f0eb'; } /* '' */
-.icon-stethoscope:before { content: '\f0f1'; } /* '' */
-.icon-food:before { content: '\f0f5'; } /* '' */
-.icon-rocket:before { content: '\f135'; } /* '' */
-.icon-euro:before { content: '\f153'; } /* '' */
-.icon-dollar:before { content: '\f155'; } /* '' */
-.icon-thumbs-up-alt:before { content: '\f164'; } /* '' */
-.icon-recycle:before { content: '\f1b8'; } /* '' */
-.icon-plug:before { content: '\f1e6'; } /* '' */
-.icon-cc-visa:before { content: '\f1f0'; } /* '' */
-.icon-chart-pie:before { content: '\f200'; } /* '' */
-.icon-chart-line:before { content: '\f201'; } /* '' */
-.icon-heartbeat:before { content: '\f21e'; } /* '' */
-.icon-battery-2:before { content: '\f242'; } /* '' */
-.icon-industry:before { content: '\f275'; } /* '' */
-.icon-map-signs:before { content: '\f277'; } /* '' */
-.icon-shopping-bag:before { content: '\f290'; } /* '' */
-.icon-envira:before { content: '\f299'; } /* '' */
-.icon-wheelchair-alt:before { content: '\f29b'; } /* '' */
-.icon-handshake-o:before { content: '\f2b5'; } /* '' */
-.icon-thermometer-3:before { content: '\f2c8'; } /* '' */
+.lrseoicon-search:before { content: '\e801'; } /* '' */
+.lrseoicon-heart:before { content: '\e802'; } /* '' */
+.lrseoicon-star:before { content: '\e803'; } /* '' */
+.lrseoicon-user:before { content: '\e804'; } /* '' */
+.lrseoicon-ok:before { content: '\e806'; } /* '' */
+.lrseoicon-ok-circled:before { content: '\e807'; } /* '' */
+.lrseoicon-cancel:before { content: '\e808'; } /* '' */
+.lrseoicon-plus:before { content: '\e809'; } /* '' */
+.lrseoicon-minus-circled:before { content: '\e80a'; } /* '' */
+.lrseoicon-help-circled:before { content: '\e80b'; } /* '' */
+.lrseoicon-attention:before { content: '\e80d'; } /* '' */
+.lrseoicon-wrench:before { content: '\e80f'; } /* '' */
+.lrseoicon-right-open:before { content: '\e812'; } /* '' */
+.lrseoicon-right-hand:before { content: '\e813'; } /* '' */
+.lrseoicon-asterisk:before { content: '\e815'; } /* '' */
+.lrseoicon-right-circled:before { content: '\f0a9'; } /* '' */
+.lrseoicon-gauge:before { content: '\f0e4'; } /* '' */
+.lrseoicon-lightbulb:before { content: '\f0eb'; } /* '' */
+.lrseoicon-stethoscope:before { content: '\f0f1'; } /* '' */
+.lrseoicon-food:before { content: '\f0f5'; } /* '' */
+.lrseoicon-rocket:before { content: '\f135'; } /* '' */
+.lrseoicon-euro:before { content: '\f153'; } /* '' */
+.lrseoicon-dollar:before { content: '\f155'; } /* '' */
+.lrseoicon-thumbs-up-alt:before { content: '\f164'; } /* '' */
+.lrseoicon-recycle:before { content: '\f1b8'; } /* '' */
+.lrseoicon-plug:before { content: '\f1e6'; } /* '' */
+.lrseoicon-cc-visa:before { content: '\f1f0'; } /* '' */
+.lrseoicon-chart-pie:before { content: '\f200'; } /* '' */
+.lrseoicon-chart-line:before { content: '\f201'; } /* '' */
+.lrseoicon-heartbeat:before { content: '\f21e'; } /* '' */
+.lrseoicon-battery-2:before { content: '\f242'; } /* '' */
+.lrseoicon-industry:before { content: '\f275'; } /* '' */
+.lrseoicon-map-signs:before { content: '\f277'; } /* '' */
+.lrseoicon-shopping-bag:before { content: '\f290'; } /* '' */
+.lrseoicon-envira:before { content: '\f299'; } /* '' */
+.lrseoicon-wheelchair-alt:before { content: '\f29b'; } /* '' */
+.lrseoicon-handshake-o:before { content: '\f2b5'; } /* '' */
+.lrseoicon-thermometer-3:before { content: '\f2c8'; } /* '' */

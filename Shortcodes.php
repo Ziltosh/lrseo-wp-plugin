@@ -54,7 +54,7 @@ class Shortcodes
             'icon' => '',
         ), $atts);
 
-        $iconName = esc_attr($a['icon']) === '' ? '' : ' icon-' . esc_attr($a['icon']);
+        $iconName = esc_attr($a['icon']) === '' ? '' : ' lrseoicon-' . esc_attr($a['icon']);
 
         // Construire le début de la liste
         return '<i class="lrseo_icon'. $iconName . '"></i>';
