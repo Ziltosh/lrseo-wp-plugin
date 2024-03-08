@@ -23,8 +23,9 @@ include_once plugin_dir_path(__FILE__) . 'Shortcodes.php';
 // Ajouter les styles et scripts
 function lrseo_enqueue_style()
 {
-    wp_register_style('lrseo-wp-plugin', plugin_dir_url(__FILE__) . 'lrseo-wp-plugin.css', [], '1.0.0', 'all');
-    wp_register_style('lrseo-font', plugin_dir_url(__FILE__) . 'lrseo-font.css', [], '1.0.0', 'all');
+    /***************************************************************** MODIFIER ICI ENTRE CHAQUE VERSION */
+    wp_register_style('lrseo-wp-plugin', plugin_dir_url(__FILE__) . 'lrseo-wp-plugin.css', [], '1.0.5', 'all');
+    wp_register_style('lrseo-font', plugin_dir_url(__FILE__) . 'lrseo-font.css', [], '1.0.5', 'all');
 
     // Ajouter le style
     wp_enqueue_style('lrseo-wp-plugin');
