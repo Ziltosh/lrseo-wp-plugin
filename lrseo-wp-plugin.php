@@ -4,7 +4,7 @@
 Plugin Name: LRSEO Plugin
 Plugin URI: https://leader-referencement.com
 Description: Plugin pour gérer quelques éléments des sites.
-Version: 1.0.5
+Version: 1.0.6
 Author: Nicolas Egermann
 Author URI: https://rfpsb.fr
 License: GPLv2
@@ -24,8 +24,8 @@ include_once plugin_dir_path(__FILE__) . 'Shortcodes.php';
 function lrseo_enqueue_style()
 {
     /***************************************************************** MODIFIER ICI ENTRE CHAQUE VERSION */
-    wp_register_style('lrseo-wp-plugin', plugin_dir_url(__FILE__) . 'lrseo-wp-plugin.css', [], '1.0.5', 'all');
-    wp_register_style('lrseo-font', plugin_dir_url(__FILE__) . 'lrseo-font.css', [], '1.0.5', 'all');
+    wp_register_style('lrseo-wp-plugin', plugin_dir_url(__FILE__) . 'lrseo-wp-plugin.css', [], '1.0.6', 'all');
+    wp_register_style('lrseo-font', plugin_dir_url(__FILE__) . 'lrseo-font.css', [], '1.0.6', 'all');
 
     // Ajouter le style
     wp_enqueue_style('lrseo-wp-plugin');
@@ -37,7 +37,7 @@ function lrseo_enqueue_style()
 
 add_action('wp_enqueue_scripts', 'lrseo_enqueue_style');
 add_action('wp_head', function() {
-    echo base64_decode(get_post_meta(get_the_ID(), 'lrseo_faq_json', true));
+    //echo base64_decode(get_post_meta(get_the_ID(), 'lrseo_faq_json', true));
 });
 
 //----------------------------------
