@@ -17,6 +17,10 @@ if (!defined('ABSPATH')) {
 
 //----------------------------------
 
+if (!is_admin()) {
+    return;
+}
+
 require_once 'vendor/autoload.php';
 
 use Admin\Ajax;
