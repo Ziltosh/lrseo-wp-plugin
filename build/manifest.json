@@ -1,0 +1,88 @@
+{
+  "css/admin_base.pcss": {
+    "file": "css/admin_base.lXTH7EAT.css",
+    "src": "css/admin_base.pcss",
+    "isEntry": true
+  },
+  "css/front_base.pcss": {
+    "file": "css/front_base.BjjHd8kw.css",
+    "src": "css/front_base.pcss",
+    "isEntry": true
+  },
+  "css/lrseo-font.pcss": {
+    "file": "css/lrseo-font.DSG5ncCq.css",
+    "src": "css/lrseo-font.pcss",
+    "isEntry": true
+  },
+  "css/lrseo-wp-plugin.pcss": {
+    "file": "css/lrseo-wp-plugin.DFR7mMD1.css",
+    "src": "css/lrseo-wp-plugin.pcss",
+    "isEntry": true
+  },
+  "fonts/lrseo.ttf": {
+    "file": "ttf/lrseo.B9RUqbE4.ttf",
+    "src": "fonts/lrseo.ttf"
+  },
+  "fonts/lrseo.woff": {
+    "file": "woff/lrseo.D5Zabg4X.woff",
+    "src": "fonts/lrseo.woff"
+  },
+  "fonts/lrseo.woff2": {
+    "file": "woff2/lrseo.Ddt8ch9o.woff2",
+    "src": "fonts/lrseo.woff2"
+  },
+  "js/admin.ajax.allposts.js": {
+    "file": "js/admin.ajax.allposts.9FB6b17s.js",
+    "name": "admin.ajax.allposts",
+    "src": "js/admin.ajax.allposts.js",
+    "isEntry": true,
+    "imports": [
+      "js/admin.cache.js",
+      "js/admin.check_lrseo_page.js"
+    ]
+  },
+  "js/admin.ajax.inbound_analyse_post.js": {
+    "file": "js/admin.ajax.inbound_analyse_post.Cusz6hnC.js",
+    "name": "admin.ajax.inbound_analyse_post",
+    "src": "js/admin.ajax.inbound_analyse_post.js",
+    "isEntry": true,
+    "imports": [
+      "js/admin.check_lrseo_page.js",
+      "js/admin.cache.js"
+    ]
+  },
+  "js/admin.ajax.inbound_select_post.js": {
+    "file": "js/admin.ajax.inbound_select_post.BKXTifll.js",
+    "name": "admin.ajax.inbound_select_post",
+    "src": "js/admin.ajax.inbound_select_post.js",
+    "isEntry": true,
+    "imports": [
+      "js/admin.cache.js",
+      "js/admin.check_lrseo_page.js"
+    ]
+  },
+  "js/admin.cache.js": {
+    "file": "js/admin.cache.4-osdmxG.js",
+    "name": "admin.cache",
+    "src": "js/admin.cache.js",
+    "isEntry": true
+  },
+  "js/admin.check_lrseo_page.js": {
+    "file": "js/admin.check_lrseo_page.Ci4yMWoH.js",
+    "name": "admin.check_lrseo_page",
+    "src": "js/admin.check_lrseo_page.js",
+    "isEntry": true
+  },
+  "js/admin_main.js": {
+    "file": "js/admin_main.l0sNRNKZ.js",
+    "name": "admin_main",
+    "src": "js/admin_main.js",
+    "isEntry": true
+  },
+  "js/front_main.js": {
+    "file": "js/front_main.DS89ikGm.js",
+    "name": "front_main",
+    "src": "js/front_main.js",
+    "isEntry": true
+  }
+}
