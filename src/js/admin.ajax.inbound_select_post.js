@@ -33,7 +33,7 @@ jQuery(document).ready(function ($) {
         }
 
         let liste = $('input[name="liste"]').val();
-        liste = atob(liste);
+        liste = atob(decodeURIComponent(liste));
         // On enlève de la liste le post sélectionné
         liste = liste.split('\n').filter(post => {
             const postObj = JSON.parse(post);

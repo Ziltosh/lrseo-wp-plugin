@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
             ).join('');
 
             const listePostsTitle = posts.map(post => JSON.stringify({id: post.ID, title: post.post_title})).join('\n');
-            const b64Liste = btoa(listePostsTitle);
+            const b64Liste = btoa(encodeURIComponent(listePostsTitle));
 
             const select = `<select class="lr-grow !lr-max-w-full lr-w-full" name="post_id">${options}</select>`;
             const input = `<input type="hidden" name="liste" value="${b64Liste}">`;
