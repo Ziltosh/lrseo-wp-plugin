@@ -17,16 +17,33 @@ if (!defined('ABSPATH')) {
 
 //----------------------------------
 
-if (!is_admin()) {
-    return;
-}
-
-require_once 'vendor/autoload.php';
-
 use Admin\Ajax;
 use ViteHelpers\Assets;
 use ViteHelpers\DevServer;
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
+
+if (!is_admin()) {
+    include __DIR__.'/src/ViteHelpers/AssetsService.php';
+    include __DIR__.'/src/ViteHelpers/Assets.php';
+    include __DIR__.'/src/ViteHelpers/DevServer.php';
+    
+    Assets::register([
+        'dir' => plugin_dir_path(__FILE__), // or get_stylesheet_directory() for themes
+        'url' => plugins_url(\basename(__DIR__)), // or get_stylesheet_directory_uri() for themes
+    ]);
+
+    add_action('wp_enqueue_scripts', function () {
+        Assets::font("lrseo.woff2");
+        Assets::font("lrseo.woff");
+        Assets::font("lrseo.ttf");
+        wp_enqueue_style('front_base', Assets::css('front_base.pcss'));
+        wp_enqueue_script('front_main', Assets::js('front_main.js'));
+    }, 2);
+
+    return;
+}
+
+require_once 'vendor/autoload.php';
 
 Assets::register([
     'dir' => plugin_dir_path(__FILE__), // or get_stylesheet_directory() for themes
@@ -34,13 +51,7 @@ Assets::register([
 ]);
 
 
-add_action('wp_enqueue_scripts', function () {
-    Assets::font("lrseo.woff2");
-    Assets::font("lrseo.woff");
-    Assets::font("lrseo.ttf");
-    wp_enqueue_style('front_base', Assets::css('front_base.pcss'));
-    wp_enqueue_script('front_main', Assets::js('front_main.js'));
-}, 2);
+
 
 add_action('admin_enqueue_scripts', function () {
     wp_enqueue_style('admin_base', Assets::css('admin_base.pcss'));
