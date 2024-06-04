@@ -72,16 +72,27 @@ class Ajax
             $liste .= json_encode(['title' => $post->post_title, 'id' => $post->ID]) . "\n";
         }
 
-        try {
-            $result = Prompts::ScorePostsInbound($kw, $liste);
-            // On extrait le json qui est dans les balises <code></code> pour le stocker dans un transient
-            preg_match('/<code>(.*?)<\/code>/s', $result, $matches);
-            $result = json_decode($matches[1], true);
+        $tries = 1;
+        $errors = [];
+        while ($tries < 5) {
+            try {
+                $result = Prompts::ScorePostsInbound($kw, $liste);
+                // On extrait le json qui est dans les balises <code></code> pour le stocker dans un transient
+                preg_match('/<code>(.*?)<\/code>/s', $result, $matches);
+                $result = json_decode($matches[1], true);
 
-            wp_send_json_success($result);
-        } catch (\Exception $e) {
-            wp_send_json_error($e->getMessage());
+                $tries = 5;
+
+                wp_send_json_success($result);
+            } catch (\Exception $e) {
+                $tries++;
+                $errors[] = $e->getMessage();
+//            wp_send_json_error($e->getMessage());
+//            wp_send_json_error($e->getMessage());
+            }
         }
+
+        wp_send_json_error($errors);
     }
 
     public static function handle_inbound_analyse_post()
@@ -100,6 +111,7 @@ class Ajax
         $content = $dstPost->post_content;
 
         $tries = 1;
+        $errors = [];
         while ($tries < 5) {
             try {
                 $result = Prompts::InsertLinkInText($kw, get_permalink($srcPost), $content);
@@ -114,9 +126,11 @@ class Ajax
                 wp_send_json_success($result);
             } catch (\Exception $e) {
                 $tries++;
-                wp_send_json_error($e->getMessage());
+                $errors[] = $e->getMessage();
             }
         }
+
+        wp_send_json_error($errors);
     }
 
     public static function localize_scripts()
