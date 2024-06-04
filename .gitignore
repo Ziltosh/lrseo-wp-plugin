@@ -37,7 +37,7 @@ wp-config.php
 
 node_modules
 #vendor
-build/*
+#build/*
 merge_release.sh
 
 # All plugins

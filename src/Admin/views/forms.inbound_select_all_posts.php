@@ -10,5 +10,5 @@
     <label for="inbound_kw_post" class="lr-block lr-mt-2">Mot-clé désiré (lié à l'article choisi), ce sera l'ancre du lien crée: </label>
     <input type="text" name="inbound_kw_post" id="inbound_kw_post"/>
     <input name="action" value="inbound_post_select" type="hidden">
-    <button id="inbound_select_post" type="button" class="button button-primary">Valider le choix de l'article</button>
+    <button id="inbound_select_post" type="button" class="button button-primary">Voir les articles de destination</button>
 </form>

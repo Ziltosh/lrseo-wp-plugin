@@ -25,6 +25,7 @@ class Ajax
             'post_type' => 'post',
             'numberposts' => -1,
             'post_status' => 'publish',
+            'orderby' => 'date',
         ]);
 
         $postsWithLinks = Links::processLinks($posts);
@@ -51,7 +52,25 @@ class Ajax
         check_ajax_referer('lrseo_inbound_select_post', 'security');
 
         $kw = sanitize_text_field($_POST['kw']);
-        $liste = sanitize_text_field($_POST['liste']);
+        $current = sanitize_key($_POST['current']);
+        $step = sanitize_key($_POST['step']);
+        $postId = sanitize_key($_POST['post_id']);
+
+//        $liste = sanitize_text_field($_POST['liste']);
+        $posts = get_posts([
+            'post_type' => 'post',
+            'offset' => $current,
+            'numberposts' => $step,
+            'post_status' => 'publish',
+            'orderby' => 'date',
+            'exclude' => [$postId],
+        ]);
+
+        // On créer la liste de titre sous forme de chaine de caractères séparés par des sauts de ligne
+        $liste = '';
+        foreach ($posts as $post) {
+            $liste .= $post->post_title . "\n";
+        }
 
         $result = Prompts::ScorePostsInbound($kw, $liste);
         // On extrait le json qui est dans les balises <code></code> pour le stocker dans un transient

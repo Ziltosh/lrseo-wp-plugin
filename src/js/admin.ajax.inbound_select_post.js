@@ -32,13 +32,13 @@ jQuery(document).ready(function ($) {
             return;
         }
 
-        let liste = $('input[name="liste"]').val();
-        liste = atob(decodeURIComponent(liste));
-        // On enlève de la liste le post sélectionné
-        liste = liste.split('\n').filter(post => {
-            const postObj = JSON.parse(post);
-            return parseInt(postObj.id, 10) !== parseInt(postId, 10);
-        }).join('\n');
+        // let liste = $('input[name="liste"]').val();
+        // liste = atob(decodeURIComponent(liste));
+        // // On enlève de la liste le post sélectionné
+        // liste = liste.split('\n').filter(post => {
+        //     const postObj = JSON.parse(post);
+        //     return parseInt(postObj.id, 10) !== parseInt(postId, 10);
+        // }).join('\n');
 
         // Change the url without navigate
         const url = new URL(window.location.href);
@@ -55,8 +55,10 @@ jQuery(document).ready(function ($) {
         // On parcourt la liste et on envoie une requête avec a chaque fois 25 éléments
         // On attend que chaque requête soit terminée pour passer a la suivante
         // On met a jour la progress bar
-        const listeToArr = liste.split('\n');
-        const total = listeToArr.length;
+        // const listeToArr = liste.split('\n');
+
+        // Nombre d'optons du select
+        const total = $('select[name="post_id"] option').length - 1;
         const step = 10;
         const promises = [];
 
@@ -66,12 +68,14 @@ jQuery(document).ready(function ($) {
             const data = {
                 action: 'lrseo_inbound_select_post',
                 kw: kw,
-                liste: listeToArr.slice(i, i + step).join('\n'),
+                post_id: postId,
+                current: i,
+                step: step,
                 security: lrseo_inbound_select_post.nonce
             };
 
             promises.push(new Promise(async (resolve) => {
-                await new Promise(resolve => setTimeout(resolve, i * 100))
+                await new Promise(resolve => setTimeout(resolve, i * 50))
                 $.post(lrseo_inbound_select_post.url, data, (response) => {
                     if (response.success) {
                         allResults.push(...response.data);
@@ -97,7 +101,7 @@ jQuery(document).ready(function ($) {
         $('#inbound_results').removeClass('lr-hidden')
         $('#inbound_src_post').val(postId);
         mainBtn.attr('disabled', false);
-        mainBtn.text('Valider le choix de l\'article');
+        mainBtn.text('Voir les articles de destination');
         const tbody = $('#inbound_tbody_results')
         tbody.html('');
         if (posts) {

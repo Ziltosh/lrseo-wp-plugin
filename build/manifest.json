@@ -32,7 +32,7 @@
     "src": "fonts/lrseo.woff2"
   },
   "js/admin.ajax.allposts.js": {
-    "file": "js/admin.ajax.allposts.BFfOWdVV.js",
+    "file": "js/admin.ajax.allposts.iuOLPngt.js",
     "name": "admin.ajax.allposts",
     "src": "js/admin.ajax.allposts.js",
     "isEntry": true,
@@ -52,7 +52,7 @@
     ]
   },
   "js/admin.ajax.inbound_select_post.js": {
-    "file": "js/admin.ajax.inbound_select_post.DutCpXio.js",
+    "file": "js/admin.ajax.inbound_select_post.D89WuYBX.js",
     "name": "admin.ajax.inbound_select_post",
     "src": "js/admin.ajax.inbound_select_post.js",
     "isEntry": true,

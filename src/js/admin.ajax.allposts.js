@@ -29,13 +29,9 @@ jQuery(document).ready(function ($) {
                 `<option value="${post.ID}" ${parseInt(post_id, 10) === parseInt(post.ID, 10) && 'selected'}>${post.post_title} (${post.outbound_links?.length || 0} OUT / ${post.inbound_links?.length || 0} IN)</option>`
             ).join('');
 
-            const listePostsTitle = posts.map(post => JSON.stringify({id: post.ID, title: post.post_title})).join('\n');
-            const b64Liste = btoa(encodeURIComponent(listePostsTitle));
-
             const select = `<select class="lr-grow !lr-max-w-full lr-w-full" name="post_id">${options}</select>`;
-            const input = `<input type="hidden" name="liste" value="${b64Liste}">`;
 
-            $('#lrseo-allposts').html(select + input);
+            $('#lrseo-allposts').html(select);
         }
     }
 });
