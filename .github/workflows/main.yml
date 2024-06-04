@@ -45,3 +45,4 @@ jobs:
         with:
           artifacts: "lrseo_wp_plugin.zip"
           bodyFile: "README.md"
+          tag: v${{ github.ref }}
