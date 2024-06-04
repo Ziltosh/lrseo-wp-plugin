@@ -60,7 +60,7 @@ jQuery(document).ready(function ($) {
             }
 
             promises.push(new Promise(async (resolve) => {
-                await new Promise(resolve => setTimeout(resolve, i * 100))
+                await new Promise(resolve => setTimeout(resolve, i * 300))
                 $.post(lrseo_inbound_analyse_post.url, data, (response) => {
                     if (response.success) {
                         allResults.push(response.data);
@@ -68,9 +68,24 @@ jQuery(document).ready(function ($) {
                         progressBarText.text(`${allResults.length}/${ids.length}`);
                         // Store.store(allResults, 'lrseo_inbound_select_post');
                         bar.attr('style', `width: ${Math.round((allResults.length / ids.length) * 100)}%;`);
+                        resolve();
+                    } else {
+                        console.error(response.data)
+                        $.post(lrseo_inbound_analyse_post.url, data, (response) => {
+                            if (response.success) {
+                                allResults.push(response.data);
+                                // Store.store(response.data, `lrseo_inbound_analyse_post_${currentId}`, 60);
+                                progressBarText.text(`${allResults.length}/${ids.length}`);
+                                // Store.store(allResults, 'lrseo_inbound_select_post');
+                                bar.attr('style', `width: ${Math.round((allResults.length / ids.length) * 100)}%;`);
+                                resolve();
+                            } else {
+                                console.error(response.data)
+                            }
+                        })
                     }
-                    resolve();
                 })
+
             }))
         }
 

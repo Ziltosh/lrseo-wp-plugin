@@ -69,15 +69,19 @@ class Ajax
         // On créer la liste de titre sous forme de chaine de caractères séparés par des sauts de ligne
         $liste = '';
         foreach ($posts as $post) {
-            $liste .= $post->post_title . "\n";
+            $liste .= json_encode(['title' => $post->post_title, 'id' => $post->ID]) . "\n";
         }
 
-        $result = Prompts::ScorePostsInbound($kw, $liste);
-        // On extrait le json qui est dans les balises <code></code> pour le stocker dans un transient
-        preg_match('/<code>(.*?)<\/code>/s', $result, $matches);
-        $result = json_decode($matches[1], true);
+        try {
+            $result = Prompts::ScorePostsInbound($kw, $liste);
+            // On extrait le json qui est dans les balises <code></code> pour le stocker dans un transient
+            preg_match('/<code>(.*?)<\/code>/s', $result, $matches);
+            $result = json_decode($matches[1], true);
 
-        wp_send_json_success($result);
+            wp_send_json_success($result);
+        } catch (\Exception $e) {
+            wp_send_json_error($e->getMessage());
+        }
     }
 
     public static function handle_inbound_analyse_post()
@@ -95,14 +99,24 @@ class Ajax
 
         $content = $dstPost->post_content;
 
-        $result = Prompts::InsertLinkInText($kw, get_permalink($srcPost), $content);
-        // On extrait le json qui est dans les balises <code></code> pour le stocker dans un transient
-        preg_match('/<code>(.*?)<\/code>/s', $result, $matches);
-        $result = json_decode($matches[1], true);
-        $result['title_dst'] = $dstPost->post_title;
-        $result['id_dst'] = $dstPost->ID;
+        $tries = 1;
+        while ($tries < 5) {
+            try {
+                $result = Prompts::InsertLinkInText($kw, get_permalink($srcPost), $content);
+                // On extrait le json qui est dans les balises <code></code> pour le stocker dans un transient
+                preg_match('/<code>(.*?)<\/code>/s', $result, $matches);
+                $result = json_decode($matches[1], true);
+                $result['title_dst'] = $dstPost->post_title;
+                $result['id_dst'] = $dstPost->ID;
 
-        wp_send_json_success($result);
+                $tries = 5;
+
+                wp_send_json_success($result);
+            } catch (\Exception $e) {
+                $tries++;
+                wp_send_json_error($e->getMessage());
+            }
+        }
     }
 
     public static function localize_scripts()

@@ -12,7 +12,7 @@ jQuery(document).ready(function ($) {
     if (Store.get('lrseo_allposts') === null) {
         $.post(lrseo_allposts.url, data, (response) => {
             if (response.success) {
-                Store.store(response.data, 'lrseo_allposts');
+                Store.store(response.data, 'lrseo_allposts', 10);
                 displaySelectPosts();
             }
         });
