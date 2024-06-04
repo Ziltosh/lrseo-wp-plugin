@@ -1,8 +1,8 @@
 name: Generate Installable Plugin, and Upload as Release Asset
 on:
   push:
-    branches:
-      - release
+    tags:
+        - '*'
 
 jobs:
   build:
