@@ -45,4 +45,3 @@ jobs:
         with:
           artifacts: "lrseo_wp_plugin.zip"
           bodyFile: "README.md"
-          tag: "2.0.1"
