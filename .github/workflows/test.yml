@@ -1,4 +1,4 @@
-name: Generate Installable Plugin, and Upload as Release Asset
+name: Test
 on:
   workflow_call:
 
