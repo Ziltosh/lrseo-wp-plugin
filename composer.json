@@ -15,8 +15,6 @@
     }
   },
   "require": {
-    "symfony/http-client": "^7.0",
-    "nyholm/psr7": "^1.8",
     "orhanerday/open-ai": "^5.1"
   },
   "config": {

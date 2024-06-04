@@ -23,14 +23,18 @@ use ViteHelpers\DevServer;
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 if (!is_admin()) {
-    include __DIR__.'/src/ViteHelpers/AssetsService.php';
-    include __DIR__.'/src/ViteHelpers/Assets.php';
-    include __DIR__.'/src/ViteHelpers/DevServer.php';
-    
+    include __DIR__ . '/src/ViteHelpers/AssetsService.php';
+    include __DIR__ . '/src/ViteHelpers/Assets.php';
+    include __DIR__ . '/src/ViteHelpers/DevServer.php';
+    include __DIR__ . '/src/Front/LrseoFront.php';
+    include __DIR__ . '/src/Front/Shortcodes.php';
+
     Assets::register([
         'dir' => plugin_dir_path(__FILE__), // or get_stylesheet_directory() for themes
         'url' => plugins_url(\basename(__DIR__)), // or get_stylesheet_directory_uri() for themes
     ]);
+
+    add_action('plugins_loaded', ['Front\LrseoFront', 'init']);
 
     add_action('wp_enqueue_scripts', function () {
         Assets::font("lrseo.woff2");
@@ -51,8 +55,6 @@ Assets::register([
 ]);
 
 
-
-
 add_action('admin_enqueue_scripts', function () {
     wp_enqueue_style('admin_base', Assets::css('admin_base.pcss'));
 //    if (function_exists('wp_enqueue_script_module')) {
@@ -62,11 +64,11 @@ add_action('admin_enqueue_scripts', function () {
 //        wp_enqueue_script_module('lrseo_inbound_select_post', Assets::js('admin.ajax.inbound_select_post'), []);
 //        wp_enqueue_script_module('lrseo_inbound_analyse_post', Assets::js('admin.ajax.inbound_analyse_post'), []);
 //    } else {
-        wp_enqueue_script('admin_main', Assets::js('admin_main.js'), [], null, false);
-        wp_enqueue_script('lrseo_allposts', Assets::js('admin.ajax.allposts.js'), [], null, false);
-        wp_enqueue_script('lrseo_inbound_select_post', Assets::js('admin.ajax.inbound_select_post.js'), [], null, false);
-        wp_enqueue_script('lrseo_inbound_analyse_post', Assets::js('admin.ajax.inbound_analyse_post.js'), [], null, false);
-        // On filtre avec script_loader_tag pour ajouter l'attribut type="module" aux scripts qui en ont besoin
+    wp_enqueue_script('admin_main', Assets::js('admin_main.js'), [], null, false);
+    wp_enqueue_script('lrseo_allposts', Assets::js('admin.ajax.allposts.js'), [], null, false);
+    wp_enqueue_script('lrseo_inbound_select_post', Assets::js('admin.ajax.inbound_select_post.js'), [], null, false);
+    wp_enqueue_script('lrseo_inbound_analyse_post', Assets::js('admin.ajax.inbound_analyse_post.js'), [], null, false);
+    // On filtre avec script_loader_tag pour ajouter l'attribut type="module" aux scripts qui en ont besoin
     add_filter('script_loader_tag', function ($tag, $handle) {
         if (in_array($handle, ['admin_main', 'lrseo_allposts', 'lrseo_inbound_select_post', 'lrseo_inbound_analyse_post'])) {
             return str_replace(' src', ' type="module" src', $tag);
@@ -79,7 +81,6 @@ add_action('admin_enqueue_scripts', function () {
 }, 1);
 
 // Initialiser le plugin
-add_action('plugins_loaded', ['Front\LrseoFront', 'init']);
 add_action('plugins_loaded', ['Admin\LrseoAdmin', 'init']);
 //add_action('wp_enqueue_scripts', ['LRSEO\Lrseo', 'front_enqueue_scripts']);
 
@@ -90,8 +91,10 @@ add_action('init', function () {
         'dir' => plugin_dir_path(__FILE__), // or get_stylesheet_directory() for themes
         'url' => plugins_url(\basename(__DIR__)), // or get_stylesheet_directory_uri() for themes
     ]);
-    $devServer = new DevServer($assets);
-    $devServer->start("3000");
+    if (WP_DEBUG) {
+        $devServer = new DevServer($assets);
+        $devServer->start("3000");
+    }
 });
 //}
 
