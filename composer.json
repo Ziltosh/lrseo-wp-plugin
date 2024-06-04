@@ -15,12 +15,11 @@
     }
   },
   "require": {
+    "php": "^7.4 || ^8.0",
     "orhanerday/open-ai": "^5.1"
   },
   "config": {
     "allow-plugins": {
-      "cweagans/composer-patches": true,
-      "php-http/discovery": true
     }
   }
 }
