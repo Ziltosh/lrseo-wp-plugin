@@ -25,6 +25,7 @@ use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 if (!is_admin()) {
     include __DIR__ . '/src/ViteHelpers/AssetsService.php';
     include __DIR__ . '/src/ViteHelpers/Assets.php';
+    include __DIR__ . '/src/ViteHelpers/AssetsException.php';
     include __DIR__ . '/src/ViteHelpers/DevServer.php';
     include __DIR__ . '/src/Front/LrseoFront.php';
     include __DIR__ . '/src/Front/Shortcodes.php';
