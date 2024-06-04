@@ -1,0 +1,43 @@
+name: Generate Installable Plugin, and Upload as Release Asset
+on:
+  workflow_call:
+
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: true
+
+      - name: pnpm build
+        run: |
+          pnpm run build
+
+      - name: Build project
+        run: |
+          composer install --no-dev --optimize-autoloader
+          mkdir dist
+
+      - name: Create artifact
+        uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -X -r build/graphql-api.zip . -x *.git* node_modules/\* .* "*/\.*" CODE_OF_CONDUCT.md CONTRIBUTING.md ISSUE_TEMPLATE.md PULL_REQUEST_TEMPLATE.md *.dist composer.* dev-helpers** build**
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: lrseo_wp_plugin
+          path: dist/lrseo_wp_plugin.zip
+      - name: Upload to release
+        uses: JasonEtco/upload-to-release@master
+        with:
+          args: dist/lrseo_wp_plugin.zip application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
