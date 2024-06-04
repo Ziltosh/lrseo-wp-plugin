@@ -1,0 +1,47 @@
+name: Test
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Upload Release Asset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: true
+
+      - name: pnpm build
+        run: |
+          pnpm run build
+
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          php_version: "8.2"
+      
+
+      - name: Create artifact
+        uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -X -r lrseo_wp_plugin.zip . -x *.git* node_modules/\* .* "*/\.*" CODE_OF_CONDUCT.md CONTRIBUTING.md ISSUE_TEMPLATE.md PULL_REQUEST_TEMPLATE.md *.dist composer.* dev-helpers**
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: lrseo_wp_plugin
+          path: lrseo_wp_plugin.zip
+          
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "lrseo_wp_plugin.zip"
+          bodyFile: "README.md"
+          tag: "1.0.0"
+          
+
+      
