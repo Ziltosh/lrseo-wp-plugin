@@ -36,7 +36,7 @@ wp-config.php
 /.htaccess
 
 node_modules
-vendor
+#vendor
 build/*
 merge_release.sh
 
