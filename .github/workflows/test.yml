@@ -20,10 +20,11 @@ jobs:
         run: |
           pnpm run build
 
-      - name: Build project
-        run: |
-          composer install --no-dev --optimize-autoloader
-          mkdir dist
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          php_version: "8.2"
+      
 
       - name: Create artifact
         uses: montudor/action-zip@v0.1.0
