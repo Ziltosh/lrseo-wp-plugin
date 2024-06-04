@@ -5,7 +5,7 @@
       <path value="$PROJECT_DIR$/../_wordress_install_for_intellij" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration">
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.4">
     <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
 </project>

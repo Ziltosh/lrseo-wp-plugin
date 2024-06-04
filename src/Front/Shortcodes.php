@@ -1,13 +1,24 @@
 <?php
 
+namespace Front;
+
 // Vérifiez que le script n'est pas exécuté en dehors de WordPress.
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+
 class Shortcodes
 {
-    public static $faqJson = '';
+
+    public static function init()
+    {
+        add_shortcode('lrseo', [Shortcodes::class, 'lrseo_fieldset']);
+        add_shortcode('lrseo_fieldset', [Shortcodes::class, 'lrseo_fieldset']);
+        add_shortcode('lrseo_list', [Shortcodes::class, 'lrseo_list']);
+        add_shortcode('lrseo_icon', [Shortcodes::class, 'lrseo_icon']);
+        add_shortcode('lrseo_faq', [Shortcodes::class, 'lrseo_faq']);
+    }
 
     public static function lrseo_fieldset($atts, $content = null)
     {
