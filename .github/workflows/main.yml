@@ -12,13 +12,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install pnpm and build
+      - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
           version: 8
           run_install: true
+
+      - name: pnpm build
         run: |
-          pnpm build
+          pnpm run build
 
       - name: Build project
         run: |
