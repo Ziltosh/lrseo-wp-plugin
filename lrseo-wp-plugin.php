@@ -3,7 +3,7 @@
 Plugin Name: LRSEO Plugin
 Plugin URI: https://leader-referencement.com
 Description: Plugin pour gérer quelques éléments des sites.
-Version: 2.0.2
+Version: 2.0.3
 Author: Nicolas Egermann
 Author URI: https://rfpsb.fr
 License: GPLv2
@@ -19,7 +19,6 @@ if (!defined('ABSPATH')) {
 
 use Admin\Ajax;
 use ViteHelpers\Assets;
-use ViteHelpers\DevServer;
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 if (!is_admin()) {
@@ -92,10 +91,10 @@ add_action('init', function () {
         'dir' => plugin_dir_path(__FILE__), // or get_stylesheet_directory() for themes
         'url' => plugins_url(\basename(__DIR__)), // or get_stylesheet_directory_uri() for themes
     ]);
-    if (WP_DEBUG) {
-        $devServer = new DevServer($assets);
-        $devServer->start("3000");
-    }
+//    if (WP_DEBUG) {
+//        $devServer = new DevServer($assets);
+//        $devServer->start("3000");
+//    }
 });
 //}
 
