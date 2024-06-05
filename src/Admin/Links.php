@@ -31,7 +31,7 @@ class Links
         foreach ($posts as $post) {
             $content = $post->post_content;
             $dom = new \DOMDocument();
-            @$dom->loadHTML($content);
+            @$dom->loadHTML("<html><meta charset=\"UTF-8\"><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><body>".$content."</body></html>");
             $links = $dom->getElementsByTagName('a');
             $post->outbound_links = [];
             /** @var \DOMNode $link */

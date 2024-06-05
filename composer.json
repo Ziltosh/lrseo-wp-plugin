@@ -15,6 +15,7 @@
     }
   },
   "require": {
+    "ext-dom": "*",
     "php": "^7.4 || ^8.0",
     "orhanerday/open-ai": "^5.1"
   },

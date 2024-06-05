@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "28b9b027633d64f043d2a9b094c57bc0",
+    "content-hash": "dbf78327257a3845bf44148d016ace1f",
     "packages": [
         {
             "name": "orhanerday/open-ai",
@@ -73,6 +73,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
+        "ext-dom": "*",
         "php": "^7.4 || ^8.0"
     },
     "platform-dev": [],
