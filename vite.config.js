@@ -2,9 +2,13 @@ import {defineConfig} from 'vite';
 import {viteWPConfig} from '@wp-strap/vite';
 
 export default defineConfig({
+    base: '',
     build: {
         target: 'es2015',
         manifest: 'manifest.json',
+        rollupOptions: {
+
+        }
     },
     plugins: [
         viteWPConfig({
