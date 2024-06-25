@@ -35,6 +35,8 @@ class Ajax
             'post_title',
             'outbound_links',
             'inbound_links',
+            'pct_links',
+            'words'
         ];
 
         $postsWithLinks = array_map(function ($post) use ($keepedData) {
@@ -51,6 +53,7 @@ class Ajax
         // Vérifier le nonce pour la sécurité
         check_ajax_referer('lrseo_inbound_select_post', 'security');
 
+        $title = sanitize_text_field($_POST['title']);
         $kw = sanitize_text_field($_POST['kw']);
         $current = sanitize_key($_POST['current']);
         $step = sanitize_key($_POST['step']);
@@ -66,17 +69,19 @@ class Ajax
             'exclude' => [$postId],
         ]);
 
+        $posts = Links::processLinks($posts);
+
         // On créer la liste de titre sous forme de chaine de caractères séparés par des sauts de ligne
         $liste = '';
         foreach ($posts as $post) {
-            $liste .= json_encode(['title' => $post->post_title, 'id' => $post->ID]) . "\n";
+            $liste .= json_encode(['title' => $post->post_title, 'id' => $post->ID, 'pct_links' => $post->pct_links]) . "\n";
         }
 
         $tries = 1;
         $errors = [];
         while ($tries < 5) {
             try {
-                $result = Prompts::ScorePostsInbound($kw, $liste);
+                $result = Prompts::ScorePostsInbound($title, $kw, $liste);
                 // On extrait le json qui est dans les balises <code></code> pour le stocker dans un transient
                 preg_match('/<code>(.*?)<\/code>/s', $result, $matches);
                 $result = json_decode($matches[1], true);
@@ -99,6 +104,7 @@ class Ajax
     {
         // Vérifier le nonce pour la sécurité
         check_ajax_referer('lrseo_inbound_analyse_post', 'security');
+        $nbResultsVoulus = 3;
 
         $postIdSrc = sanitize_key($_POST['post_id_src']);
         $srcPost = get_post(intval($postIdSrc));
@@ -107,23 +113,29 @@ class Ajax
         $dstPost = get_post(intval($postIdDst));
 
         $kw = sanitize_text_field($_POST['kw']);
+        $titre = $srcPost->post_title;
 
         $content = $dstPost->post_content;
 
         $tries = 1;
         $errors = [];
-        while ($tries < 5) {
+        $results = [];
+        while ($tries < 5 && count($results) < $nbResultsVoulus) {
             try {
-                $result = Prompts::InsertLinkInText($kw, get_permalink($srcPost), $content);
+                $result = Prompts::InsertLinkInText($kw, $titre, get_permalink($srcPost), $content);
                 // On extrait le json qui est dans les balises <code></code> pour le stocker dans un transient
                 preg_match('/<code>(.*?)<\/code>/s', $result, $matches);
                 $result = json_decode($matches[1], true);
                 $result['title_dst'] = $dstPost->post_title;
                 $result['id_dst'] = $dstPost->ID;
 
-                $tries = 5;
+                $results[] = $result;
+                $tries = 1;
 
-                wp_send_json_success($result);
+                if (count($results) >= $nbResultsVoulus) {
+                    $tries = 5;
+                    wp_send_json_success($results);
+                }
             } catch (\Exception $e) {
                 $tries++;
                 $errors[] = $e->getMessage();

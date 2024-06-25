@@ -111,26 +111,32 @@ jQuery(document).ready(function ($) {
             return;
         }
 
-        results.forEach((result, index) => {
-            divResult.append(`
-                <h3 class="title">${result.title_dst}</h3>
+        results.forEach((resultsArticle, index) => {
+            divResult.append(`<h3 className="title">${resultsArticle[index].title_dst}</h3>`)
+            resultsArticle.forEach((result, index2) => {
+                divResult.append(`
                 <div class="lr-flex lr-flex-col lr-gap-2 lr-mb-2">
                     <div class="lr-flex lr-gap-2">
                         <div class="lr-self-center lr-w-1/6">Texte avant: </div>
-                        <input class="lr-grow" type="text" id="inbound_text_before_${index}" value=""/>
+<!--                        <input class="lr-grow" type="text" id="inbound_text_before_${index}_${index2}" value=""/>-->
+                        <div id="inbound_html_before_${index}_${index2}"></div>
                     </div>
                     <div class="lr-flex lr-gap-2">
-                        <div class="lr-self-center lr-w-1/6">Phrase: </div>
-                        <input class="lr-grow" type="text" id="inbound_text_sentence_${index}" value=""/>
+                        <div class="lr-self-center lr-w-1/6">Phrase du lien: </div>
+<!--                        <input class="lr-grow" type="text" id="inbound_text_sentence_${index}_${index2}" value=""/>-->
+                        <div id="inbound_html_sentence_${index}_${index2}"></div>
                     </div>
-                    <button type="button" id="inbound_edit_article_${index}" class="button button-secondary">Aller sur la modification de l'article</button>
+                    <button type="button" id="inbound_edit_article_${index}_${index2}" class="button button-secondary">Aller sur la modification de l'article</button>
                 </div>
                 <hr/>
             `)
-            $('#inbound_text_before_' + index).val(result.before)
-            $('#inbound_text_sentence_' + index).val(result.sentence)
-            $('#inbound_edit_article_' + index).on('click', function () {
-                window.open('/wp-admin/post.php?post=' + result.id_dst + '&action=edit', '_blank')
+                // $('#inbound_text_before_' + index2).val(result.before)
+                $('#inbound_html_before_' + index + '_' + index2).html(result.before)
+                // $('#inbound_text_sentence_' + index2).val(result.sentence)
+                $('#inbound_html_sentence_' + index + '_' + index2).html(result.sentence)
+                $('#inbound_edit_article_' + index + '_' + index2).on('click', function () {
+                    window.open('/wp-admin/post.php?post=' + result.id_dst + '&action=edit', '_blank')
+                })
             })
         })
 

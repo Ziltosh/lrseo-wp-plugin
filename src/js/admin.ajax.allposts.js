@@ -26,7 +26,7 @@ jQuery(document).ready(function ($) {
         let post_id = query.get('lrseo_inbound_post_select');
         if (posts) {
             const options = posts.map(post =>
-                `<option value="${post.ID}" ${parseInt(post_id, 10) === parseInt(post.ID, 10) && 'selected'}>${post.post_title} (${post.outbound_links?.length || 0} OUT / ${post.inbound_links?.length || 0} IN)</option>`
+                `<option value="${post.ID}" ${parseInt(post_id, 10) === parseInt(post.ID, 10) && 'selected'} data-title="${post.post_title.replaceAll('"', '')}">${post.post_title} (${post.outbound_links?.length || 0} OUT / ${post.inbound_links?.length || 0} IN)</option>`
             ).join('');
 
             const select = `<select class="lr-grow !lr-max-w-full lr-w-full" name="post_id">${options}</select>`;

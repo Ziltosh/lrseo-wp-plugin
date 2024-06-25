@@ -15,6 +15,7 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
         const postId = $('select[name="post_id"]').val();
         const kw = $('#inbound_kw_post').val();
+        const title = $('select[name="post_id"] option:selected').data('title');
         const allResults = [];
 
         if (!kw) {
@@ -25,7 +26,7 @@ jQuery(document).ready(function ($) {
         mainBtn.attr('disabled', true);
         mainBtn.text('Analyse des articles en cours...');
 
-        const storeResult = Store.get(`lrseo_inbound_select_post_${postId}`);
+        const storeResult = Store.get(`lrseo_inbound_select_post_${postId}_${kw}`);
         if (storeResult) {
             allResults.push(...storeResult);
             displayResults(allResults, postId)
@@ -57,9 +58,9 @@ jQuery(document).ready(function ($) {
         // On met a jour la progress bar
         // const listeToArr = liste.split('\n');
 
-        // Nombre d'optons du select
+        // Nombre d'options du select
         const total = $('select[name="post_id"] option').length - 1;
-        const step = 10;
+        const step = 50;
         const promises = [];
 
         progressBarText.text(`0/${total}`);
@@ -68,6 +69,7 @@ jQuery(document).ready(function ($) {
             const data = {
                 action: 'lrseo_inbound_select_post',
                 kw: kw,
+                title: title,
                 post_id: postId,
                 current: i,
                 step: step,
@@ -90,7 +92,7 @@ jQuery(document).ready(function ($) {
 
         Promise.all(promises).then(() => {
             progressBar.addClass('lr-hidden');
-            Store.store(allResults, `lrseo_inbound_select_post_${postId}`, 60);
+            Store.store(allResults, `lrseo_inbound_select_post_${postId}_${kw}`, 60);
             displayResults(allResults, postId)
         })
     })
@@ -101,14 +103,14 @@ jQuery(document).ready(function ($) {
         $('#inbound_results').removeClass('lr-hidden')
         $('#inbound_src_post').val(postId);
         mainBtn.attr('disabled', false);
-        mainBtn.text('Voir les articles de destination');
+        mainBtn.text('Voir les articles sources potentiels');
         const tbody = $('#inbound_tbody_results')
         tbody.html('');
         if (posts) {
             const rows = posts.map(post =>
                 `<tr>
                     <th scope="row" class="check-column"><input type="checkbox" name="post[]" ${post.score >= 85 && "checked"} data-id="${post.id}" data-title="${post.title}"/></th>
-                    <td class="title has-row-actions column-title column-primary">
+                    <td class="title has-row-actions column-title column-primary lr-max-w-[800px] lr-overflow-y-scroll">
                         <strong>${post.titre || post.title || ''}</strong>
                         <div class="row-actions">
                             <span class="edit"><a href="/wp-admin/post.php?post=${post.id}&action=edit">Modifier</a> | </span>
@@ -116,6 +118,7 @@ jQuery(document).ready(function ($) {
                         </div>
                     </td>
                     <td>${post.score}</td>
+                    <td>${Intl.NumberFormat('fr-FR', {maximumFractionDigits: 2}).format(post.pct_links / 100)}</td>
                 </tr>`
             ).join('');
 

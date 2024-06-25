@@ -43,7 +43,6 @@ class OpenAiApi
 
         $prompt = self::replaceInPrompt($prompt, $replaces);
 
-
         $tries = 0;
         while ($tries <= 5) {
             $chatOptions = [

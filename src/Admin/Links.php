@@ -10,13 +10,39 @@ class Links
      * @param bool $in
      * @return \WP_Post[]
      */
-    public static function processLinks(array $posts = [], bool $out = true, bool $in = true): array
+    public static function processLinks(array $posts = [], bool $out = true, bool $in = true, $stats = true): array
     {
         if ($out) {
             $posts = self::outLinks($posts);
         }
         if ($in) {
             $posts = self::inLinks($posts);
+        }
+        if ($stats) {
+            $posts = self::getLinksStats($posts);
+        }
+
+        return $posts;
+    }
+
+    /**
+     * @param \WP_Post[] $posts
+     * @return \WP_Post[]
+     */
+    private static function getLinksStats(array $posts): array
+    {
+        // On calcule le nombre de mots de l'article
+        // On divise par le nombre de liens sortants
+        // On obtient le nombre de liens pour 1000 mots
+        // On stocke dans un tableau
+
+        foreach ($posts as $post) {
+            $content = $post->post_content;
+            $words = str_word_count(strip_tags($content));
+            $links = count($post->outbound_links);
+            $post->nb_links = $links;
+            $post->words = $words;
+            $post->pct_links = $links / ($words / 1000);
         }
 
         return $posts;
@@ -31,7 +57,7 @@ class Links
         foreach ($posts as $post) {
             $content = $post->post_content;
             $dom = new \DOMDocument();
-            @$dom->loadHTML("<html><meta charset=\"UTF-8\"><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><body>".$content."</body></html>");
+            @$dom->loadHTML("<html><meta charset=\"UTF-8\"><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"><body>" . $content . "</body></html>");
             $links = $dom->getElementsByTagName('a');
             $post->outbound_links = [];
             /** @var \DOMNode $link */

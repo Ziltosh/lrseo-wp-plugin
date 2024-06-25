@@ -6,8 +6,10 @@ export default defineConfig({
     build: {
         target: 'es2015',
         manifest: 'manifest.json',
+        watch: {
+            include: ['src/**/*.js', "src/**/*.ts", "src/**/*.php, src/**/*.css, src/**/*.pcss, src/**/*.html"],
+        },
         rollupOptions: {
-
         }
     },
     plugins: [
