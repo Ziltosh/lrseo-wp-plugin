@@ -39,13 +39,14 @@ jQuery(document).ready(function ($) {
         let post_id = query.get('lrseo_inbound_post_select');
         if (posts) {
             const rows = posts.map(post =>
-                `<tr data-title="${post.post_title}" data-id="${post.ID}" class="${parseInt(post_id, 10) === parseInt(post.ID, 10) && 'lr-bg-amber-100 !important'}">
+                `<tr data-title="${post.post_title}" data-id="${post.ID}" class="${parseInt(post_id, 10) === parseInt(post.ID, 10) && '!lr-bg-amber-100'}">
+                    <td>${parseInt(post_id, 10) === parseInt(post.ID, 10) ? '' : `<a href="${window.location}&lrseo_inbound_post_select=${post.ID}">Choisir</a>`}</td>
                     <td class="title has-row-actions column-title column-primary lr-max-w-[800px] lr-overflow-y-scroll">
                         <strong>${post.post_title}</strong>
                     </td>
                     <td>${post.outbound_links?.length}</td>
                     <td>${post.inbound_links?.length}</td>
-                    <td>${parseInt(post_id, 10) === parseInt(post.ID, 10) ? '' : `<a href="${window.location}&lrseo_inbound_post_select=${post.ID}">Choisir</a>`}</td>
+                    <td>${post.words}</td>
                 </tr>`
             ).join('');
 
@@ -55,6 +56,9 @@ jQuery(document).ready(function ($) {
 
             const searchValue = Store.get('lrseo_search_post');
             $('#lrseo_allposts_tbody tr').filter(function () {
+                if (!searchValue || searchValue === '') {
+                    return true;
+                }
                 $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1)
             });
         }

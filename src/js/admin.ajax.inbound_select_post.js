@@ -62,7 +62,7 @@ jQuery(document).ready(function ($) {
 
         // Nombre d'options du select
         const total = $('#lrseo_allposts_tbody tr').length - 1;
-        const step = 50;
+        const step = 30;
         const promises = [];
 
         progressBarText.text(`0/${total}`);
@@ -111,7 +111,7 @@ jQuery(document).ready(function ($) {
         if (posts) {
             const rows = posts.map(post =>
                 `<tr>
-                    <th scope="row" class="check-column"><input type="checkbox" name="post[]" ${post.score >= 85 && "checked"} data-id="${post.id}" data-title="${post.title}"/></th>
+                    <th scope="row" class="check-column"><input type="checkbox" name="post[]"} data-id="${post.id}" data-title="${post.title}"/></th>
                     <td class="title has-row-actions column-title column-primary lr-max-w-[800px] lr-overflow-y-scroll">
                         <strong>${post.titre || post.title || ''}</strong>
                         <div class="row-actions">
@@ -120,7 +120,7 @@ jQuery(document).ready(function ($) {
                         </div>
                     </td>
                     <td>${post.score}</td>
-                    <td>${Intl.NumberFormat('fr-FR', {maximumFractionDigits: 2}).format(post.pct_links / 100)}</td>
+                    <td>${Intl.NumberFormat('fr-FR', {maximumFractionDigits: 2}).format(post.pct_links)}</td>
                 </tr>`
             ).join('');
 

@@ -11,7 +11,16 @@ class Prompts
     ###liste###
     
     Analye les et calcule pour chacun d'entre eux un score de pertinence sur 100 qui indique la proximité avec le titre de l'article a lié.
-    Pondère ce score par rapport au pourcentage de liens déjà présents dans l'article (pct_links), plus le pourcentage est élevé, moins le score doit être élevé. 
+    Voici quelques exemples de scores:
+    - Titre: Se libérer de ses peurs : comment réussir durablement ? - Comparaison: Exercices pour vaincre la peur grâce à la dépolarisation - Score: 95 (ça parle des peurs)
+    - Titre: Se libérer de ses peurs : comment réussir durablement ? - Comparaison: Booster sa performance sportive : la meilleure méthode - Score: 0 (pas de rapport)
+    - Titre: Se libérer de ses peurs : comment réussir durablement ? - Comparaison: Comment maîtriser son mental : conseils pratiques - Score: 60 (maitriser son mental et se libérer de ses peurs peuvent être liés)
+    - Titre: Se libérer de ses peurs : comment réussir durablement ? - Comparaison: Se mettre la pression : comment arrêter définitivement ? - Score: 70 (la pression et les peurs peuvent être liés)
+    - Titre: Se libérer de ses peurs : comment réussir durablement ? - Comparaison: Combattre sa peur de ne pas réussir : les clés - Score: 90 (ça parle de peurs et de réussir)
+    - Titre: Se libérer de ses peurs : comment réussir durablement ? - Comparaison: Stress de sportif de haut niveau : les stratégies de gestion - Score: 65 (le stress et les peurs peuvent être liés)
+    
+    
+    Pondère ce score par rapport au pourcentage de liens déjà présents dans l'article (pct_links), plus le pourcentage est élevé, moins le score doit être élevé, si le pct_links dépasse 6, le score est divisé au moins de moitié. 
     Renvoie-moi ça sous la forme d'un JSON qui contient les infos du JSON que tu as reçu en entrée avec en plus le score de pertinence sur 100 que tu as calculé.
     Exemple: [{ \"id\": 1, \"title\": \"Titre de l'article\", \"pct_links\": 0.2, \"score\": 75 }, { \"id\": 23, \"title\": \"Titre de l'article 2\", \"pct_links\": 0.5, \"score\": 50}]
     Ne me renvoie que le JSON, pas de texte supplémentaire.
@@ -28,11 +37,12 @@ class Prompts
     ###texte###
     
     ------------------------------------
+    FIN DU TEXTE, DEBUT DES INSTRUCTIONS
     
     Voici ce que tu dois faire :
     1) Analyser où se trouvent des liens déjà existants dans le contenu
     2) Trouver l'endroit le plus pertinent du texte pour parler de l'article ###titre### . Ca ne doit pas être au milieu d'une phrase ou avant une liste. 
-    3) Créer une phrase en français, qui s'intègre correctement au reste du contenu et du flux d'informations. 
+    3) Créer une phrase en français, qui s'intègre correctement au reste du contenu et du flux d'informations. Fait bien attention a la façon de s'exprimer (tutoiement ou vouvoiement, première ou troisième personne, etc).
     Elle doit contenir le lien en HTML vers l'article ###titre### avec comme ancre de lien (entre le <a></a>) \"###kw###\" , comme url: ###url### et en target=_blank.
     Cette phrase doit être indépendante, commencer par une majuscule et se terminer par un point. Elle doit être cohérente et compréhensible.
     Elle doit amener le lien de manière naturelle et pertinente. 
