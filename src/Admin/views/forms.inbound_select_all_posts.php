@@ -2,9 +2,25 @@
     <label>Choix de l'article de destination</label>
     <div id="lrseo-allposts" class="lr-flex lr-flex-col lr-gap-2">
         <div
-            class="lr-inline-block lr-h-5 lr-w-5 lr-animate-spin lr-rounded-full lr-border-4 lr-border-solid lr-border-current lr-border-e-transparent lr-align-[-0.125em] lr-text-surface lr-motion-reduce:animate-[spin_1.5s_linear_infinite] lr-text-black"
+            class="lrseo_status lr-inline-block lr-h-5 lr-w-5 lr-animate-spin lr-rounded-full lr-border-4 lr-border-solid lr-border-current lr-border-e-transparent lr-align-[-0.125em] lr-text-surface lr-motion-reduce:animate-[spin_1.5s_linear_infinite] lr-text-black"
             role="status">
         </div>
+
+
+        Filtrer : <input id="lrseo_search_post" type="text" name="search" value="<?=isset($_GET['s']) ? $_GET['s'] : '' ?>" />
+
+        <table id="lrseo_allposts_table" class="wp-list-table striped widefat table-view-list lr-mt-2 lr-hidden">
+            <thead>
+            <tr class="iedit level-0 type-page hentry">
+                <th class="manage-column column-title">Titre</th>
+                <th>OUT</th>
+                <th>IN</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody id="lrseo_allposts_tbody">
+            </tbody>
+        </table>
     </div>
     <?php wp_nonce_field('inbound_post_select','inbound_post_select_nonce'); ?>
     <label for="inbound_kw_post" class="lr-block lr-mt-2">Mot-clé désiré (lié à l'article choisi), ce sera l'ancre du lien crée: </label>

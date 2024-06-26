@@ -6,10 +6,6 @@
  * @param {number} [expiration=1] - The expiration time in minutes.
  */
 function storeItem(item, name, expiration = 1) {
-    // On vérifie si l'item n'est pas déjà dans le local storage
-    if (getItem(name)) {
-        return;
-    }
     // On enregistre dans le local storage en gardant ajoutant une date d'expiration a expiration minute(s)
     let date = new Date();
     date.setMinutes(date.getMinutes() + expiration);

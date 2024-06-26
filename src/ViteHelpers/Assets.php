@@ -51,6 +51,7 @@ class Assets
      */
     protected static DevServer $devServer;
 
+    
     /**
      * PSR Container.
      *

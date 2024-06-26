@@ -2,6 +2,7 @@
 
 namespace Admin;
 
+
 class LrseoAdmin
 {
     public static function init()
@@ -30,7 +31,6 @@ class LrseoAdmin
                 </div>
                 <?php return ?>
             <?php endif; ?>
-
 
             <div class="lr-flex lr-flex-grow lr-gap-4">
                 <div class="lr-gap-2 lr-w-full">

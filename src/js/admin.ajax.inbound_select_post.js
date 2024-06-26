@@ -9,13 +9,15 @@ jQuery(document).ready(function ($) {
         return;
     }
 
+
     const mainBtn = $('#inbound_select_post')
 
     mainBtn.on('click', function (e) {
         e.preventDefault();
-        const postId = $('select[name="post_id"]').val();
+        let query = new URLSearchParams(window.location.search);
+        let post_id = query.get('lrseo_inbound_post_select');
         const kw = $('#inbound_kw_post').val();
-        const title = $('select[name="post_id"] option:selected').data('title');
+        const title = $('tr[data-id="'+post_id+'"]').data('title');
         const allResults = [];
 
         if (!kw) {
@@ -26,10 +28,10 @@ jQuery(document).ready(function ($) {
         mainBtn.attr('disabled', true);
         mainBtn.text('Analyse des articles en cours...');
 
-        const storeResult = Store.get(`lrseo_inbound_select_post_${postId}_${kw}`);
+        const storeResult = Store.get(`lrseo_inbound_select_post_${post_id}_${kw}`);
         if (storeResult) {
             allResults.push(...storeResult);
-            displayResults(allResults, postId)
+            displayResults(allResults, post_id)
             return;
         }
 
@@ -42,9 +44,9 @@ jQuery(document).ready(function ($) {
         // }).join('\n');
 
         // Change the url without navigate
-        const url = new URL(window.location.href);
-        url.searchParams.set('lrseo_inbound_post_select', postId);
-        window.history.replaceState({}, '', url);
+        // const url = new URL(window.location.href);
+        // url.searchParams.set('lrseo_inbound_post_select', postId);
+        // window.history.replaceState({}, '', url);
 
         // On affiche la progress bar
         const progressBar = $('#inbound_progress_bar');
@@ -59,7 +61,7 @@ jQuery(document).ready(function ($) {
         // const listeToArr = liste.split('\n');
 
         // Nombre d'options du select
-        const total = $('select[name="post_id"] option').length - 1;
+        const total = $('#lrseo_allposts_tbody tr').length - 1;
         const step = 50;
         const promises = [];
 
@@ -70,7 +72,7 @@ jQuery(document).ready(function ($) {
                 action: 'lrseo_inbound_select_post',
                 kw: kw,
                 title: title,
-                post_id: postId,
+                post_id: post_id,
                 current: i,
                 step: step,
                 security: lrseo_inbound_select_post.nonce
@@ -92,8 +94,8 @@ jQuery(document).ready(function ($) {
 
         Promise.all(promises).then(() => {
             progressBar.addClass('lr-hidden');
-            Store.store(allResults, `lrseo_inbound_select_post_${postId}_${kw}`, 60);
-            displayResults(allResults, postId)
+            Store.store(allResults, `lrseo_inbound_select_post_${post_id}_${kw}`, 60);
+            displayResults(allResults, post_id)
         })
     })
 

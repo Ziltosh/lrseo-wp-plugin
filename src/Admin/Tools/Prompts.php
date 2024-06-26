@@ -54,7 +54,8 @@ class Prompts
     Prends tout ton temps pour bien réfléchir avant de répondre et utilise toutes tes capcités, le temps de réponse m'importe peu.
     ";
 
-    
+
+
     /**
      * @throws \Exception
      */

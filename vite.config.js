@@ -7,7 +7,11 @@ export default defineConfig({
         target: 'es2015',
         manifest: 'manifest.json',
         watch: {
-            include: ['src/**/*.js', "src/**/*.ts", "src/**/*.php, src/**/*.css, src/**/*.pcss, src/**/*.html"],
+            chokidar: {
+                usePolling: true,
+                useFsEvents: false
+            },
+            include: ['src/**'],
         },
         rollupOptions: {
         }
