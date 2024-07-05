@@ -59,34 +59,30 @@ jQuery(document).ready(function ($) {
                 continue;
             }
 
-            promises.push(new Promise(async (resolve) => {
-                await new Promise(resolve => setTimeout(resolve, i * 300))
-                $.post(lrseo_inbound_analyse_post.url, data, (response) => {
-                    if (response.success) {
-                        allResults.push(response.data);
-                        // Store.store(response.data, `lrseo_inbound_analyse_post_${currentId}`, 60);
-                        progressBarText.text(`${allResults.length}/${ids.length}`);
-                        // Store.store(allResults, 'lrseo_inbound_select_post');
-                        bar.attr('style', `width: ${Math.round((allResults.length / ids.length) * 100)}%;`);
+            promises.push(new Promise((resolve) => {
+                setTimeout(() => {
+                    $.post(lrseo_inbound_analyse_post.url, data, (response) => {
+                        if (response.success) {
+                            allResults.push(response.data);
+                            progressBarText.text(`${allResults.length}/${ids.length}`);
+                            bar.attr('style', `width: ${Math.round((allResults.length / ids.length) * 100)}%;`);
+                        } else {
+                            console.error(response.data);
+                            // Tentative de nouvelle requête en cas d'échec
+                            $.post(lrseo_inbound_analyse_post.url, data, (retryResponse) => {
+                                if (retryResponse.success) {
+                                    allResults.push(retryResponse.data);
+                                    progressBarText.text(`${allResults.length}/${ids.length}`);
+                                    bar.attr('style', `width: ${Math.round((allResults.length / ids.length) * 100)}%;`);
+                                } else {
+                                    console.error(retryResponse.data);
+                                }
+                            });
+                        }
                         resolve();
-                    } else {
-                        console.error(response.data)
-                        $.post(lrseo_inbound_analyse_post.url, data, (response) => {
-                            if (response.success) {
-                                allResults.push(response.data);
-                                // Store.store(response.data, `lrseo_inbound_analyse_post_${currentId}`, 60);
-                                progressBarText.text(`${allResults.length}/${ids.length}`);
-                                // Store.store(allResults, 'lrseo_inbound_select_post');
-                                bar.attr('style', `width: ${Math.round((allResults.length / ids.length) * 100)}%;`);
-                                resolve();
-                            } else {
-                                console.error(response.data)
-                            }
-                        })
-                    }
-                })
-
-            }))
+                    });
+                }, i * 10000); // Délai de 10 secondes multiplié par l'index
+            }));
         }
 
         Promise.all(promises).then(() => {
@@ -132,12 +128,18 @@ jQuery(document).ready(function ($) {
                 allHtml += `<div class="lr-flex lr-flex-col lr-gap-2 lr-mb-2">
                     <div class="lr-flex lr-gap-2">
                         <div class="lr-self-center lr-w-1/6">Texte avant: </div>
-                        <div class="lrse_copy_clipboard lr-cursor-pointer lr-underline" data-html="${b64Before}">📋</div>
+                        <div class="lrse_copy_clipboard lr-cursor-pointer lr-underline" data-html="${b64Before}"><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M9 8v3a1 1 0 0 1-1 1H5m11 4h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v1m4 3v10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7.13a1 1 0 0 1 .24-.65L7.7 8.35A1 1 0 0 1 8.46 8H13a1 1 0 0 1 1 1Z"/>
+</svg>
+</div>
                         <div id="inbound_html_before_${index}_${index2}">${result.before}</div>
                     </div>
                     <div class="lr-flex lr-gap-2">
                         <div class="lr-self-center lr-w-1/6">Phrase du lien: </div>
-                        <div class="lrse_copy_clipboard lr-cursor-pointer lr-underline" data-html="${b64Sentence}">📋</div>
+                        <div class="lrse_copy_clipboard lr-cursor-pointer lr-underline" data-html="${b64Sentence}"><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+  <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M9 8v3a1 1 0 0 1-1 1H5m11 4h2a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-7a1 1 0 0 0-1 1v1m4 3v10a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-7.13a1 1 0 0 1 .24-.65L7.7 8.35A1 1 0 0 1 8.46 8H13a1 1 0 0 1 1 1Z"/>
+</svg>
+</div>
                         <div id="inbound_html_sentence_${index}_${index2}">${result.sentence}</div>
                     </div>
                     <a type="button" href="/wp-admin/post.php?post=${result.id_dst}&action=edit" target="_blank" id="inbound_edit_article_${index}_${index2}" class="lr-max-w-[300px] button button-secondary">Aller sur la modification de l'article</a>

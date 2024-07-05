@@ -23,9 +23,9 @@ class Prompts
     Pondère ce score par rapport au pourcentage de liens déjà présents dans l'article (pct_links), plus le pourcentage est élevé, moins le score doit être élevé, si le pct_links dépasse 6, le score est divisé au moins de moitié. 
     Renvoie-moi ça sous la forme d'un JSON qui contient les infos du JSON que tu as reçu en entrée avec en plus le score de pertinence sur 100 que tu as calculé.
     Exemple: [{ \"id\": 1, \"title\": \"Titre de l'article\", \"pct_links\": 0.2, \"score\": 75 }, { \"id\": 23, \"title\": \"Titre de l'article 2\", \"pct_links\": 0.5, \"score\": 50}]
-    Ne me renvoie que le JSON, pas de texte supplémentaire.
+    Ne me renvoie que le JSON, pas de texte supplémentaire, pas d'explications.
     Vérifie bien que tu as inclus tous les articles de la liste et que tu as bien respecté le format demandé.
-    Entoure-le de balises <code></code> pour que je puisse le reconnaitre facilement.
+    Entoure-le avec la balise <code> pour que je puisse le reconnaitre facilement.
     
     Prends le temps de réfléchir avant de répondre et utilise toutes tes capcités, le temps de réponse m'importe peu.";
 
@@ -69,25 +69,42 @@ class Prompts
     /**
      * @throws \Exception
      */
-    public static function ScorePostsInbound(string $titre, string $liste, string $kw): string
+    public static function ScorePostsInbound(string $titre, string $liste, string $kw, string $llm = "chatgpt"): string
     {
-        return OpenAiApi::Message(self::$promptChoixPostsInbound, [
-            '###titre###' => $titre,
-            '###liste###' => $liste,
-            '###kw###' => $kw,
-        ], null, null);
+        if ($llm === 'chatgpt') {
+            return OpenAiApi::Message(self::$promptChoixPostsInbound, [
+                '###titre###' => $titre,
+                '###liste###' => $liste,
+                '###kw###' => $kw,
+            ], null, null);
+        } else {
+            return ClaudeApi::Message(self::$promptChoixPostsInbound, [
+                '###titre###' => $titre,
+                '###liste###' => $liste,
+                '###kw###' => $kw,
+            ], null, null);
+        }
     }
 
     /**
      * @throws \Exception
      */
-    public static function InsertLinkInText(string $kw, string $titre, string $url, string $texte): string
+    public static function InsertLinkInText(string $kw, string $titre, string $url, string $texte, string $llm = "claude"): string
     {
-        return OpenAiApi::Message(self::$promptInsertLink, [
-            '###kw###' => $kw,
-            '###titre###' => $titre,
-            '###url###' => $url,
-            '###texte###' => $texte,
-        ], null, null);
+        if ($llm === 'chatgpt') {
+            return OpenAiApi::Message(self::$promptInsertLink, [
+                '###kw###' => $kw,
+                '###titre###' => $titre,
+                '###url###' => $url,
+                '###texte###' => $texte,
+            ], null, null);
+        } else {
+            return ClaudeApi::Message(self::$promptInsertLink, [
+                '###kw###' => $kw,
+                '###titre###' => $titre,
+                '###url###' => $url,
+                '###texte###' => $texte,
+            ], null, null);
+        }
     }
 }

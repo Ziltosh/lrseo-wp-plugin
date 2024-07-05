@@ -82,13 +82,29 @@ class Ajax
         while ($tries < 5) {
             try {
                 $result = Prompts::ScorePostsInbound($title, $kw, $liste);
-                // On extrait le json qui est dans les balises <code></code> pour le stocker dans un transient
+                // On extrait le json qui se trouve entouré de balises <code></code>
                 preg_match('/<code>(.*?)<\/code>/s', $result, $matches);
-                $result = json_decode($matches[1], true);
+                // On vérifie qu'il y a bien un match, sinon on decode le texte brut
+                if (isset($matches[1])) {
+                    $matches[1] = str_replace("\n", '', $matches[1]);
+                    $jsonResult = json_decode($matches[1], true);
+                } else {
+                    $result = str_replace("\n", '', $result);
+                    $jsonResult = json_decode($result, true);
+                }
+
+//                var_dump($matches[1]);
+//                var_dump($result);
+//                var_dump($jsonResult);
+//                die();
+
+                if ($jsonResult === null) {
+                    throw new \Exception($jsonResult['error']);
+                }
 
                 $tries = 5;
 
-                wp_send_json_success($result);
+                wp_send_json_success($jsonResult);
             } catch (\Exception $e) {
                 $tries++;
                 $errors[] = $e->getMessage();
@@ -124,12 +140,21 @@ class Ajax
             try {
                 $result = Prompts::InsertLinkInText($kw, $titre, get_permalink($srcPost), $content);
                 // On extrait le json qui est dans les balises <code></code> pour le stocker dans un transient
+                // On extrait le json qui se trouve entouré de balises <code></code>
                 preg_match('/<code>(.*?)<\/code>/s', $result, $matches);
-                $result = json_decode($matches[1], true);
-                $result['title_dst'] = $dstPost->post_title;
-                $result['id_dst'] = $dstPost->ID;
+                // On vérifie qu'il y a bien un match, sinon on decode le texte brut
+                if (isset($matches[1])) {
+                    $matches[1] = str_replace("\n", '', $matches[1]);
+                    $jsonResult = json_decode($matches[1], true);
+                } else {
+                    $result = str_replace("\n", '', $result);
+                    $jsonResult = json_decode($result, true);
+                }
 
-                $results[] = $result;
+                $jsonResult['title_dst'] = $dstPost->post_title;
+                $jsonResult['id_dst'] = $dstPost->ID;
+
+                $results[] = $jsonResult;
                 $tries = 1;
 
                 if (count($results) >= $nbResultsVoulus) {
