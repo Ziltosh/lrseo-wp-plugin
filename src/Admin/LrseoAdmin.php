@@ -7,6 +7,7 @@ class LrseoAdmin
 {
     public static function init()
     {
+        // On désactive le menu et le linking pour l'instant
         add_action('admin_menu', [__CLASS__, 'add_admin_menus']);
         Ajax::init();
         Forms::init();
@@ -29,7 +30,7 @@ class LrseoAdmin
                     <p>Vous devez définir la constante OPENAI_KEY dans votre fichier wp-config.php pour utiliser cette
                         page.</p>
                 </div>
-                <?php return ?>
+                <?php return; ?>
             <?php endif; ?>
 
             <div class="lr-flex lr-flex-grow lr-gap-4">
@@ -43,15 +44,15 @@ class LrseoAdmin
 
                     <?php include 'views/results.inbound_select_all_posts.php'; ?>
                 </div>
-<!--                <div class="lr-w-1/2 lr-gap-2">-->
-<!--                    <h2 class="title">Faire un lien sortant</h2>-->
-<!--                    --><?php //include 'views/forms.outbound_select_all_posts.php'; ?>
-<!--                    <div id="outbound_progress_bar" class="lr-w-full lr-bg-gray-200 lr-rounded-full lr-h-2.5 lr-hidden lr-mb-2">-->
-<!--                        <div class="bar lr-bg-blue-600 lr-h-2.5 lr-rounded-full lr-transition" style="width: 45%"></div>-->
-<!--                    </div>-->
-<!--                    <div id="outbound_progress_bar_text" class="lr-w-full lr-text-center"></div>-->
-<!---->
-<!--                </div>-->
+                <!--                <div class="lr-w-1/2 lr-gap-2">-->
+                <!--                    <h2 class="title">Faire un lien sortant</h2>-->
+                <!--                    --><?php //include 'views/forms.outbound_select_all_posts.php'; ?>
+                <!--                    <div id="outbound_progress_bar" class="lr-w-full lr-bg-gray-200 lr-rounded-full lr-h-2.5 lr-hidden lr-mb-2">-->
+                <!--                        <div class="bar lr-bg-blue-600 lr-h-2.5 lr-rounded-full lr-transition" style="width: 45%"></div>-->
+                <!--                    </div>-->
+                <!--                    <div id="outbound_progress_bar_text" class="lr-w-full lr-text-center"></div>-->
+                <!---->
+                <!--                </div>-->
 
             </div>
         </div>

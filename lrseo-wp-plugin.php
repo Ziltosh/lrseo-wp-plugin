@@ -1,9 +1,10 @@
 <?php
+
 /*
 Plugin Name: LRSEO Plugin
 Plugin URI: https://leader-referencement.com
 Description: Plugin pour gérer quelques éléments des sites.
-Version: 2.0.3
+Version: 2.1.0
 Author: Nicolas Egermann
 Author URI: https://rfpsb.fr
 License: GPLv2
@@ -15,102 +16,105 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-//----------------------------------
+require_once __DIR__ . '/vendor/autoload.php';
 
 use Admin\Ajax;
-use ViteHelpers\Assets;
+use Kucrut\Vite;
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
+
+add_action('wp_enqueue_scripts', function (): void {
+    Vite\enqueue_asset(
+        __DIR__ . '/build',
+        'src/js/front_main.ts',
+        [
+            'handle' => 'front_main',
+            'dependencies' => [], // Optional script dependencies. Defaults to empty array.
+            'css-dependencies' => [], // Optional style dependencies. Defaults to empty array.
+            'css-media' => 'all', // Optional.
+            'css-only' => false, // Optional. Set to true to only load style assets in production mode.
+            'in-footer' => true, // Optional. Defaults to false.
+        ]
+    );
+});
+
 if (!is_admin()) {
-    include __DIR__ . '/src/ViteHelpers/AssetsService.php';
-    include __DIR__ . '/src/ViteHelpers/Assets.php';
-    include __DIR__ . '/src/ViteHelpers/AssetsException.php';
-    include __DIR__ . '/src/ViteHelpers/DevServer.php';
-    include __DIR__ . '/src/Front/LrseoFront.php';
-    include __DIR__ . '/src/Front/Shortcodes.php';
-
-    Assets::register([
-        'dir' => plugin_dir_path(__FILE__), // or get_stylesheet_directory() for themes
-        'url' => plugins_url(\basename(__DIR__)), // or get_stylesheet_directory_uri() for themes
-    ]);
-
     add_action('plugins_loaded', ['Front\LrseoFront', 'init']);
-
-    add_action('wp_enqueue_scripts', function () {
-        Assets::font("lrseo.woff2");
-        Assets::font("lrseo.woff");
-        Assets::font("lrseo.ttf");
-        wp_enqueue_style('front_base', Assets::css('front_base.pcss'));
-        wp_enqueue_script('front_main', Assets::js('front_main.js'));
-    }, 2);
-
-    return;
 }
 
-require_once 'vendor/autoload.php';
+if (is_admin()) {
+    add_action('admin_enqueue_scripts', function () {
+        Vite\enqueue_asset(
+            __DIR__ . '/build',
+            'src/js/admin_main.ts',
+            [
+                'handle' => 'admin_main',
+                'dependencies' => ['jquery'], // Optional script dependencies. Defaults to empty array.
+                'css-dependencies' => [], // Optional style dependencies. Defaults to empty array.
+                'css-media' => 'all', // Optional.
+                'css-only' => false, // Optional. Set to true to only load style assets in production mode.
+                'in-footer' => true, // Optional. Defaults to false.
+            ]
+        );
 
-Assets::register([
-    'dir' => plugin_dir_path(__FILE__), // or get_stylesheet_directory() for themes
-    'url' => plugins_url(\basename(__DIR__)), // or get_stylesheet_directory_uri() for themes
-]);
+        Vite\enqueue_asset(
+            __DIR__ . '/build',
+            'src/js/admin.ajax.allposts.js',
+            [
+                'handle' => 'lrseo_allposts',
+                'dependencies' => ['jquery'], // Optional script dependencies. Defaults to empty array.
+                'css-dependencies' => [], // Optional style dependencies. Defaults to empty array.
+                'css-media' => 'all', // Optional.
+                'css-only' => false, // Optional. Set to true to only load style assets in production mode.
+                'in-footer' => true, // Optional. Defaults to false.
+            ]
+        );
+
+        Vite\enqueue_asset(
+            __DIR__ . '/build',
+            'src/js/admin.ajax.inbound_select_post.js',
+            [
+                'handle' => 'lrseo_inbound_select_post',
+                'dependencies' => ['jquery'],
+                'in-footer' => true,
+            ]
+        );
+
+        Vite\enqueue_asset(
+            __DIR__ . '/build',
+            'src/js/admin.ajax.inbound_analyse_post.js',
+            [
+                'handle' => 'lrseo_inbound_analyse_post',
+                'dependencies' => ['jquery'],
+                'in-footer' => true,
+            ]
+        );
+
+        Ajax::localize_scripts();
+
+    });
 
 
-add_action('admin_enqueue_scripts', function () {
-    wp_enqueue_style('admin_base', Assets::css('admin_base.pcss'));
-//    if (function_exists('wp_enqueue_script_module')) {
-//        wp_register_script_module('admin_main', Assets::js('admin_main'));
-//        wp_enqueue_script_module('admin_main', Assets::js('admin_main'), []);
-//        wp_enqueue_script_module('lrseo_allposts', Assets::js('admin.ajax.allposts'), []);
-//        wp_enqueue_script_module('lrseo_inbound_select_post', Assets::js('admin.ajax.inbound_select_post'), []);
-//        wp_enqueue_script_module('lrseo_inbound_analyse_post', Assets::js('admin.ajax.inbound_analyse_post'), []);
-//    } else {
-    wp_enqueue_script('admin_main', Assets::js('admin_main.js'), [], null, false);
-    wp_enqueue_script('lrseo_allposts', Assets::js('admin.ajax.allposts.js'), [], null, false);
-    wp_enqueue_script('lrseo_inbound_select_post', Assets::js('admin.ajax.inbound_select_post.js'), [], null, false);
-    wp_enqueue_script('lrseo_inbound_analyse_post', Assets::js('admin.ajax.inbound_analyse_post.js'), [], null, false);
-    // On filtre avec script_loader_tag pour ajouter l'attribut type="module" aux scripts qui en ont besoin
-    add_filter('script_loader_tag', function ($tag, $handle) {
-        if (in_array($handle, ['admin_main', 'lrseo_allposts', 'lrseo_inbound_select_post', 'lrseo_inbound_analyse_post'])) {
-            return str_replace(' src', ' type="module" src', $tag);
-        }
-        return $tag;
-    }, 10, 2);
-//    }
 
-    Ajax::localize_scripts();
-}, 1);
+    add_action('plugins_loaded', ['Admin\LrseoAdmin', 'init']);
 
-// Initialiser le plugin
-add_action('plugins_loaded', ['Admin\LrseoAdmin', 'init']);
-//add_action('wp_enqueue_scripts', ['LRSEO\Lrseo', 'front_enqueue_scripts']);
+    //----------------------------------
 
-// Listens to ViteJS dev server and makes adjustment to make HMR work
-//if (defined('WP_DEBUG') && WP_DEBUG === true) {
-add_action('init', function () {
-    $assets = Assets::register([
-        'dir' => plugin_dir_path(__FILE__), // or get_stylesheet_directory() for themes
-        'url' => plugins_url(\basename(__DIR__)), // or get_stylesheet_directory_uri() for themes
-    ]);
-//    if (WP_DEBUG) {
-//        $devServer = new DevServer($assets);
-//        $devServer->start("3000");
-//    }
-});
-//}
+    require 'plugin-update-checker-5.4/plugin-update-checker.php';
+
+    $myUpdateChecker = PucFactory::buildUpdateChecker(
+        'https://github.com/Ziltosh/lrseo-wp-plugin',
+        __FILE__,
+        'lrseo-wp-plugin'
+    );
+
+    //Set the branch that contains the stable release.
+    $myUpdateChecker->setBranch('main');
+    //$myUpdateChecker->getVcsApi()->enableReleaseAssets();
+
+    //Optional: If you're using a private repository, specify the access token like this:
+//$myUpdateChecker->setAuthentication('your-token-here');
+}
 
 //----------------------------------
 
-require 'plugin-update-checker-5.4/plugin-update-checker.php';
-
-$myUpdateChecker = PucFactory::buildUpdateChecker(
-    'https://github.com/Ziltosh/lrseo-wp-plugin',
-    __FILE__,
-    'lrseo-wp-plugin'
-);
-
-//Set the branch that contains the stable release.
-$myUpdateChecker->setBranch('main');
-//$myUpdateChecker->getVcsApi()->enableReleaseAssets();
-
-//Optional: If you're using a private repository, specify the access token like this:
-//$myUpdateChecker->setAuthentication('your-token-here');

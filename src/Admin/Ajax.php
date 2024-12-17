@@ -11,9 +11,9 @@ class Ajax
         add_action('wp_ajax_lrseo_allposts', [__CLASS__, 'handle_allposts']);
         add_action('wp_ajax_lrseo_inbound_select_post', [__CLASS__, 'handle_inbound_select_post']);
         add_action('wp_ajax_lrseo_inbound_analyse_post', [__CLASS__, 'handle_inbound_analyse_post']);
-//        add_action();
-//        self::localize_scripts();
-//        add_action('wp_no_priv_ajax_test', [__CLASS__, 'handle_test']);
+        //        add_action();
+        // self::localize_scripts();
+        //        add_action('wp_no_priv_ajax_test', [__CLASS__, 'handle_test']);
     }
 
     public static function handle_allposts()
@@ -40,7 +40,7 @@ class Ajax
         ];
 
         $postsWithLinks = array_map(function ($post) use ($keepedData) {
-            return array_filter((array)$post, function ($key) use ($keepedData) {
+            return array_filter((array) $post, function ($key) use ($keepedData) {
                 return in_array($key, $keepedData);
             }, ARRAY_FILTER_USE_KEY);
         }, $postsWithLinks);
@@ -59,7 +59,7 @@ class Ajax
         $step = sanitize_key($_POST['step']);
         $postId = sanitize_key($_POST['post_id']);
 
-//        $liste = sanitize_text_field($_POST['liste']);
+        //        $liste = sanitize_text_field($_POST['liste']);
         $posts = get_posts([
             'post_type' => 'post',
             'offset' => $current,
@@ -93,7 +93,7 @@ class Ajax
                     $jsonResult = json_decode($result, true);
                 }
 
-//                var_dump($matches[1]);
+                //                var_dump($matches[1]);
 //                var_dump($result);
 //                var_dump($jsonResult);
 //                die();
@@ -108,7 +108,7 @@ class Ajax
             } catch (\Exception $e) {
                 $tries++;
                 $errors[] = $e->getMessage();
-//            wp_send_json_error($e->getMessage());
+                //            wp_send_json_error($e->getMessage());
 //            wp_send_json_error($e->getMessage());
             }
         }
@@ -187,6 +187,5 @@ class Ajax
             'url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('lrseo_inbound_analyse_post')
         ]);
-//        die();
     }
 }
