@@ -63,7 +63,7 @@ class ClaudeApi
             $chat = $claude->chat($chatOptions);
 
             if (!isset($chat->getContent()[0]["text"])) {
-                var_dump('no choice gpt', sha1($prompt), $chat);
+                error_log('LRSEO Claude API error');
                 sleep(5);
                 $tries++;
             } else {

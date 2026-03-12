@@ -7,7 +7,7 @@
 
 
         Filtrer : <input id="lrseo_search_post" type="text" name="search"
-            value="<?= isset($_GET['s']) ? $_GET['s'] : '' ?>" />
+            value="<?= isset($_GET['s']) ? esc_attr($_GET['s']) : '' ?>" />
 
         <div class="lr-max-h-[450px] lr-overflow-y-scroll">
             <table id="lrseo_allposts_table" class="wp-list-table striped widefat table-view-list lr-mt-2 lr-hidden">

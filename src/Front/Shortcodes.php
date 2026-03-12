@@ -78,7 +78,11 @@ class Shortcodes
             'json' => ''
         ), $atts);
 
-        $jsonText = base64_decode($a['json']);
+        $jsonText = base64_decode($a['json'], true);
+        if ($jsonText === false) {
+            return '';
+        }
+
         $jsonText = str_replace('<script type="application/ld+json">', '', $jsonText);
         $jsonText = str_replace('</script>', '', $jsonText);
         $jsonText = str_replace("\n", '\n', $jsonText);
@@ -86,9 +90,16 @@ class Shortcodes
 
         $json = json_decode($jsonText, true);
 
+        if (!is_array($json) || !isset($json['mainEntity'])) {
+            return '';
+        }
+
         $questions = $json['mainEntity'];
         foreach ($questions as $key => $question)
         {
+            if (!isset($json['mainEntity'][$key]['acceptedAnswer'][0]['text'])) {
+                continue;
+            }
             $text = $json['mainEntity'][$key]['acceptedAnswer'][0]['text'];
             $text = json_encode(do_shortcode($text));
             $json['mainEntity'][$key]['acceptedAnswer'][0]['text'] = $text;
@@ -99,7 +110,9 @@ class Shortcodes
 
         $jsonBase64 = base64_encode($jsonTextBack);
 
-        update_post_meta(get_the_ID(), 'lrseo_faq_json', $jsonBase64);
+        if (current_user_can('edit_post', get_the_ID())) {
+            update_post_meta(get_the_ID(), 'lrseo_faq_json', $jsonBase64);
+        }
 
         return '';
     }

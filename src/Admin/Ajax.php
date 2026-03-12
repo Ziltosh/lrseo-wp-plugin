@@ -20,6 +20,7 @@ class Ajax
     {
         // Vérifier le nonce pour la sécurité
         check_ajax_referer('lrseo_allposts', 'security');
+        if (!current_user_can('manage_options')) { wp_send_json_error('Unauthorized'); }
 
         $posts = get_posts([
             'post_type' => 'post',
@@ -52,12 +53,13 @@ class Ajax
     {
         // Vérifier le nonce pour la sécurité
         check_ajax_referer('lrseo_inbound_select_post', 'security');
+        if (!current_user_can('manage_options')) { wp_send_json_error('Unauthorized'); }
 
         $title = sanitize_text_field($_POST['title']);
         $kw = sanitize_text_field($_POST['kw']);
-        $current = sanitize_key($_POST['current']);
-        $step = sanitize_key($_POST['step']);
-        $postId = sanitize_key($_POST['post_id']);
+        $current = intval($_POST['current']);
+        $step = intval($_POST['step']);
+        $postId = intval($_POST['post_id']);
 
         //        $liste = sanitize_text_field($_POST['liste']);
         $posts = get_posts([
@@ -120,13 +122,14 @@ class Ajax
     {
         // Vérifier le nonce pour la sécurité
         check_ajax_referer('lrseo_inbound_analyse_post', 'security');
+        if (!current_user_can('manage_options')) { wp_send_json_error('Unauthorized'); }
         $nbResultsVoulus = 3;
 
-        $postIdSrc = sanitize_key($_POST['post_id_src']);
-        $srcPost = get_post(intval($postIdSrc));
+        $postIdSrc = intval($_POST['post_id_src']);
+        $srcPost = get_post($postIdSrc);
 
-        $postIdDst = sanitize_key($_POST['post_id_dst']);
-        $dstPost = get_post(intval($postIdDst));
+        $postIdDst = intval($_POST['post_id_dst']);
+        $dstPost = get_post($postIdDst);
 
         $kw = sanitize_text_field($_POST['kw']);
         $titre = $srcPost->post_title;

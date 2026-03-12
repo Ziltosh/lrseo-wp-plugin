@@ -69,7 +69,7 @@ class OpenAiApi
             $d = json_decode($chat);
 
             if (!isset($d->choices[0]->message->content)) {
-                var_dump('no choice gpt', sha1($prompt), $d);
+                error_log('LRSEO OpenAI API error: ' . json_encode($d));
                 sleep(5);
                 $tries++;
             } else {
