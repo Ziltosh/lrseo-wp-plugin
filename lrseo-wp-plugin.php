@@ -110,7 +110,7 @@ if (is_admin()) {
 
     //Set the branch that contains the stable release.
     $myUpdateChecker->setBranch('main');
-    //$myUpdateChecker->getVcsApi()->enableReleaseAssets();
+    $myUpdateChecker->getVcsApi()->enableReleaseAssets();
 
     //Optional: If you're using a private repository, specify the access token like this:
 //$myUpdateChecker->setAuthentication('your-token-here');
